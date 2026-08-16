@@ -2,18 +2,20 @@ package com.quedav1.quedav1back.transaction.adapter.out.persistence.user;
 
 import com.quedav1.quedav1back.transaction.application.port.out.PasswordEncoder;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 public class BCryptPasswordEncoderAdapter implements PasswordEncoder {
 
-    private final BCryptPasswordEncoder encoder;
+    private final org.springframework.security.crypto.password.PasswordEncoder delegate;
 
-    public BCryptPasswordEncoderAdapter() {
-        this.encoder = new BCryptPasswordEncoder();
+    public BCryptPasswordEncoderAdapter(org.springframework.security.crypto.password.PasswordEncoder delegate) {
+        this.delegate = delegate;
     }
 
     @Override
     public String encode(String rawPassword) {
-        return encoder.encode(rawPassword);
+        return delegate.encode(rawPassword);
+    }
+    @Override
+    public boolean matches(String rawPassword, String encodedPassword) {
+        return delegate.matches(rawPassword, encodedPassword);
     }
 }

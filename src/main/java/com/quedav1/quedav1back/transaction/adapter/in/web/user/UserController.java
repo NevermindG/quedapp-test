@@ -1,24 +1,28 @@
 package com.quedav1.quedav1back.transaction.adapter.in.web.user;
 
-import com.quedav1.quedav1back.transaction.application.port.in.CreateUserCommand;
-import com.quedav1.quedav1back.transaction.application.port.in.CreateUserUseCase;
-import com.quedav1.quedav1back.transaction.application.port.in.UserResult;
+import com.quedav1.quedav1back.transaction.adapter.in.web.auth.LoginRequest;
+import com.quedav1.quedav1back.transaction.adapter.in.web.auth.LoginResponse;
+import com.quedav1.quedav1back.transaction.application.port.in.*;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
 
     private final CreateUserUseCase createUserUseCase;
+    private final LoginUseCase loginUseCase;
+    private final GetCurrentUserUseCase getCurrentUserUseCase;
 
-    public UserController(CreateUserUseCase createUserUseCase) {
+    public UserController(CreateUserUseCase createUserUseCase, LoginUseCase loginUseCase, GetCurrentUserUseCase getCurrentUserUseCase) {
         this.createUserUseCase = createUserUseCase;
+        this.loginUseCase = loginUseCase;
+        this.getCurrentUserUseCase = getCurrentUserUseCase;
     }
 
     @PostMapping
@@ -42,5 +46,38 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(CreateUserResponse.from(result));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(
+            @RequestBody LoginRequest request
+    ) {
+
+        LoginResult result = loginUseCase.login(
+                new LoginCommand(
+                        request.email(),
+                        request.password()
+                )
+        );
+
+        return ResponseEntity.ok(
+                new LoginResponse(
+                        result.accessToken()
+                )
+        );
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<CurrentUserResult> getCurrentUser(
+            Authentication authentication
+    ) {
+
+        UUID userId = (UUID) authentication.getPrincipal();
+        String firstName = authentication.getName();
+
+        CurrentUserResult result =
+                getCurrentUserUseCase.getCurrentUser(userId);
+
+        return ResponseEntity.ok(result);
     }
 }

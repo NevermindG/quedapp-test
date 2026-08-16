@@ -4,6 +4,7 @@ import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
 import com.quedav1.quedav1back.transaction.domain.model.User;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class UserPersistenceAdapter implements UserRepository {
 
@@ -26,6 +27,14 @@ public class UserPersistenceAdapter implements UserRepository {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return Optional.empty();
+        return repository.findByEmail(email)
+                .map(UserPersistenceMapper::toDomain);
+    }
+
+    @Override
+    public Optional<User> findById(UUID userId) {
+        return repository
+                .findById(userId)
+                .map(UserPersistenceMapper::toDomain);
     }
 }
