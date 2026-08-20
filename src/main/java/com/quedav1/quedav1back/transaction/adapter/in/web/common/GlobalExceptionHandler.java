@@ -1,6 +1,8 @@
 package com.quedav1.quedav1back.transaction.adapter.in.web.common;
 
+import com.quedav1.quedav1back.transaction.application.exception.ExpenseNotFoundException;
 import com.quedav1.quedav1back.transaction.application.exception.InvalidCredentialsException;
+import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +20,32 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorResponse(
                         "INVALID_CREDENTIALS",
+                        exception.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(ExpenseNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleExpenseNotFound(
+            ExpenseNotFoundException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(
+                        "EXPENSE_NOT_FOUND",
+                        exception.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFound(
+            UserNotFoundException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(
+                        "USER_NOT_FOUND",
                         exception.getMessage()
                 ));
     }
