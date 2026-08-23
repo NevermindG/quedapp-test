@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 
 public record CreateExpenseRequest(
 
@@ -23,6 +24,6 @@ public record CreateExpenseRequest(
         ExpenseCategory category,
 
         @NotNull
-        Instant occurredAt
+        LocalDate occurredAt
 ) {
 }

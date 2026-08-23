@@ -1,4 +1,4 @@
-package com.quedav1.quedav1back.transaction.domain.model.expense;
+package com.quedav1.quedav1back.transaction.domain.model.income;
 
 import com.quedav1.quedav1back.transaction.domain.model.Currency;
 
@@ -7,25 +7,45 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class Expense {
+public class Income {
 
     private final UUID id;
     private final UUID userId;
     private final BigDecimal amount;
     private final Currency currency;
     private final String description;
-    private final ExpenseCategory category;
+    private final IncomeCategory category;
     private final LocalDate occurredAt;
     private final Instant createdAt;
     private final Instant updatedAt;
 
-    public Expense(
+    public Income update(
+            BigDecimal amount,
+            Currency currency,
+            String description,
+            IncomeCategory category,
+            LocalDate occurredAt
+    ) {
+        return new Income(
+                this.id,
+                this.userId,
+                amount,
+                currency,
+                description,
+                category,
+                occurredAt,
+                this.createdAt,
+                Instant.now()
+        );
+    }
+
+    public Income(
             UUID id,
             UUID userId,
             BigDecimal amount,
             Currency currency,
             String description,
-            ExpenseCategory category,
+            IncomeCategory category,
             LocalDate occurredAt,
             Instant createdAt,
             Instant updatedAt
@@ -61,7 +81,7 @@ public class Expense {
         return description;
     }
 
-    public ExpenseCategory getCategory() {
+    public IncomeCategory getCategory() {
         return category;
     }
 
@@ -77,25 +97,4 @@ public class Expense {
         return updatedAt;
     }
 
-
-
-    public Expense update(
-            BigDecimal amount,
-            Currency currency,
-            String description,
-            ExpenseCategory category,
-            LocalDate occurredAt
-    ) {
-        return new Expense(
-                this.id,
-                this.userId,
-                amount,
-                currency,
-                description,
-                category,
-                occurredAt,
-                this.createdAt,
-                Instant.now()
-        );
-    }
 }

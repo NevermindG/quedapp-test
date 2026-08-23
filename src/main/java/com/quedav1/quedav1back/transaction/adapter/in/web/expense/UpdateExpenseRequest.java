@@ -5,12 +5,13 @@ import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 
 public record UpdateExpenseRequest(
         BigDecimal amount,
         Currency currency,
         String description,
         ExpenseCategory category,
-        Instant occurredAt
+        LocalDate occurredAt
 ) {
 }

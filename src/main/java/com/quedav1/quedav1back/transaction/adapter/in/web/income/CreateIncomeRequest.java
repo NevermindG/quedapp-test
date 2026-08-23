@@ -1,19 +1,17 @@
-package com.quedav1.quedav1back.transaction.application.port.in;
+package com.quedav1.quedav1back.transaction.adapter.in.web.income;
 
 import com.quedav1.quedav1back.transaction.domain.model.Currency;
-import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
+import com.quedav1.quedav1back.transaction.domain.model.income.IncomeCategory;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.UUID;
 
-public record CreateExpenseCommand(
-        UUID userId,
+public record CreateIncomeRequest(
         BigDecimal amount,
         Currency currency,
         String description,
-        ExpenseCategory category,
+        IncomeCategory category,
         LocalDate occurredAt
 ) {
 }

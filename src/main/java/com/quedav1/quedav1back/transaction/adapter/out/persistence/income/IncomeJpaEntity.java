@@ -1,7 +1,7 @@
-package com.quedav1.quedav1back.transaction.adapter.out.persistence.expense;
+package com.quedav1.quedav1back.transaction.adapter.out.persistence.income;
 
 import com.quedav1.quedav1back.transaction.domain.model.Currency;
-import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
+import com.quedav1.quedav1back.transaction.domain.model.income.IncomeCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,12 +14,12 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "expenses")
+@Table(name = "incomes")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExpenseJpaEntity {
+public class IncomeJpaEntity {
 
     @Id
     private UUID id;
@@ -38,7 +38,7 @@ public class ExpenseJpaEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ExpenseCategory category;
+    private IncomeCategory category;
 
     @Column(nullable = false)
     private LocalDate occurredAt;

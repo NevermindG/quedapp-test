@@ -1,6 +1,7 @@
 package com.quedav1.quedav1back.transaction.adapter.in.web.common;
 
 import com.quedav1.quedav1back.transaction.application.exception.ExpenseNotFoundException;
+import com.quedav1.quedav1back.transaction.application.exception.IncomeNotFoundException;
 import com.quedav1.quedav1back.transaction.application.exception.InvalidCredentialsException;
 import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,19 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(
                         "USER_NOT_FOUND",
+                        exception.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(IncomeNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleIncomeNotFound(
+            IncomeNotFoundException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(
+                        "INCOME_NOT_FOUND",
                         exception.getMessage()
                 ));
     }

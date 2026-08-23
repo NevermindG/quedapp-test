@@ -6,6 +6,7 @@ import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public record ExpenseResponse(
@@ -14,7 +15,7 @@ public record ExpenseResponse(
         Currency currency,
         String description,
         ExpenseCategory category,
-        Instant occurredAt
+        LocalDate occurredAt
 ) {
 
     public static ExpenseResponse from(ExpenseResult result) {
