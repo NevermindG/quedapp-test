@@ -3,6 +3,7 @@ package com.quedav1.quedav1back.transaction.adapter.out.persistence.expense;
 import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
 import com.quedav1.quedav1back.transaction.domain.model.expense.Expense;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -59,4 +60,15 @@ public class ExpensePersistenceAdapter implements ExpenseRepository {
 
         repository.delete(entity);
     }
+
+    @Override
+    public List<Expense> findByUserIdAndOccurredAtBetween(UUID userId, LocalDate from, LocalDate to) {
+        return repository
+                .findByUserIdAndOccurredAtBetween(userId, from, to)
+                .stream()
+                .map(ExpensePersistenceMapper::toDomain)
+                .toList();
+    }
+
+
 }

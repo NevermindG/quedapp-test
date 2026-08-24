@@ -1,0 +1,71 @@
+package com.quedav1.quedav1back.configuration;
+
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.GetFinancialOverviewUseCase;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.GetFinancialSummaryUseCase;
+import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.IncomeRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.PlannedExpenseRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
+import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.GetFinancialOverviewService;
+import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.GetFinancialSummaryService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class FinancialConfiguration {
+
+    @Bean
+    public GetFinancialSummaryUseCase getFinancialSummaryUseCase(
+            IncomeRepository incomeRepository,
+            ExpenseRepository expenseRepository,
+            UserRepository userRepository
+    ) {
+        return new GetFinancialSummaryService(
+                incomeRepository,
+                expenseRepository,
+                userRepository
+        );
+    }
+
+    @Bean
+    public GetFinancialOverviewUseCase getFinancialOverviewUseCase(
+            IncomeRepository incomeRepository,
+            ExpenseRepository expenseRepository,
+            PlannedExpenseRepository plannedExpenseRepository,
+            UserRepository userRepository
+    ) {
+        return new GetFinancialOverviewService(
+                incomeRepository,
+                expenseRepository,
+                plannedExpenseRepository,
+                userRepository
+        );
+    }
+}
+
+/*
+{
+    "year": 2026,
+    "month": 8,
+    "totalIncome": 5800.00,
+    "totalExpenses": 2035.40,
+    "pendingPlannedExpenses": 0,
+    "balance": 3764.60,
+    "availableToSpend": 3764.60,
+    "dailyAvailable": 418.29,
+    "remainingDays": 9,
+    "currency": "PEN"
+}
+{
+    "year": 2026,
+    "month": 8,
+    "totalIncome": 5800.00,
+    "totalExpenses": 2035.40,
+    "pendingPlannedExpenses": 1500.00,
+    "balance": 3764.60,
+    "availableToSpend": 2264.60,
+    "dailyAvailable": 251.62,
+    "remainingDays": 9,
+    "currency": "PEN"
+}
+ */

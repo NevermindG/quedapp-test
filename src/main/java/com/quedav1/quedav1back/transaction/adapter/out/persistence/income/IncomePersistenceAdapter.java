@@ -3,6 +3,7 @@ package com.quedav1.quedav1back.transaction.adapter.out.persistence.income;
 import com.quedav1.quedav1back.transaction.application.port.out.IncomeRepository;
 import com.quedav1.quedav1back.transaction.domain.model.income.Income;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -57,5 +58,18 @@ public class IncomePersistenceAdapter implements IncomeRepository {
                 IncomePersistenceMapper.toEntity(income);
 
         repository.delete(entity);
+    }
+
+    @Override
+    public List<Income> findByUserIdAndOccurredAtBetween(
+            UUID userId,
+            LocalDate from,
+            LocalDate to
+    ) {
+        return repository
+                .findByUserIdAndOccurredAtBetween(userId, from, to)
+                .stream()
+                .map(IncomePersistenceMapper::toDomain)
+                .toList();
     }
 }

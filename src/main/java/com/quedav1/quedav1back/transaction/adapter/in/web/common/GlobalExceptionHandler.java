@@ -1,9 +1,7 @@
 package com.quedav1.quedav1back.transaction.adapter.in.web.common;
 
-import com.quedav1.quedav1back.transaction.application.exception.ExpenseNotFoundException;
-import com.quedav1.quedav1back.transaction.application.exception.IncomeNotFoundException;
-import com.quedav1.quedav1back.transaction.application.exception.InvalidCredentialsException;
-import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundException;
+import com.quedav1.quedav1back.transaction.application.exception.*;
+import com.quedav1.quedav1back.transaction.domain.model.plannedexpense.PlannedExpenseAlreadyPaidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -60,6 +58,32 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(
                         "INCOME_NOT_FOUND",
+                        exception.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(PlannedExpenseNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlePlannedExpenseNotFound(
+            PlannedExpenseNotFoundException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(
+                        "PLANNED_EXPENSE_NOT_FOUND",
+                        exception.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(PlannedExpenseAlreadyPaidException.class)
+    public ResponseEntity<ErrorResponse> handlePlannedExpenseAlreadyPaid(
+            PlannedExpenseAlreadyPaidException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorResponse(
+                        "PLANNED_EXPENSE_ALREADY_PAID",
                         exception.getMessage()
                 ));
     }
