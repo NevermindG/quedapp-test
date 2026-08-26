@@ -2,12 +2,10 @@ package com.quedav1.quedav1back.configuration;
 
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.GetFinancialOverviewUseCase;
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.GetFinancialSummaryUseCase;
-import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
-import com.quedav1.quedav1back.transaction.application.port.out.IncomeRepository;
-import com.quedav1.quedav1back.transaction.application.port.out.PlannedExpenseRepository;
-import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.*;
 import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.GetFinancialOverviewService;
 import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.GetFinancialSummaryService;
+import com.quedav1.quedav1back.transaction.domain.model.financial.FinancialEngine;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,14 +30,24 @@ public class FinancialConfiguration {
             IncomeRepository incomeRepository,
             ExpenseRepository expenseRepository,
             PlannedExpenseRepository plannedExpenseRepository,
-            UserRepository userRepository
+            SavingsContributionRepository savingsContributionRepository,
+            UserRepository userRepository,
+            FinancialEngine financialEngine
     ) {
+
         return new GetFinancialOverviewService(
                 incomeRepository,
                 expenseRepository,
                 plannedExpenseRepository,
-                userRepository
+                savingsContributionRepository,
+                userRepository,
+                financialEngine
         );
+    }
+
+    @Bean
+    public FinancialEngine financialEngine() {
+        return new FinancialEngine();
     }
 }
 

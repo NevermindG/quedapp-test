@@ -1,0 +1,22 @@
+package com.quedav1.quedav1back.transaction.domain.model.financial;
+
+public enum FinancialInsightCode {
+    NO_INCOME,
+    HEALTHY_COMMITMENT,
+    HIGH_COMMITMENT,
+    OVERSPENDING,
+    LOW_DAILY_AVAILABLE,
+
+    SPENDING_UP,
+    SPENDING_DOWN,
+    SPENDING_STABLE,
+
+    NO_PREVIOUS_SPENDING_DATA,
+
+    CATEGORY_SPENDING_UP,
+    CATEGORY_SPENDING_DOWN,
+
+    NO_SAVINGS,
+    LOW_SAVINGS,
+    HEALTHY_SAVINGS
+}

@@ -3,21 +3,23 @@ package com.quedav1.quedav1back.transaction.application.port.service.financial.e
 import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundException;
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.FinancialOverviewResult;
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.GetFinancialOverviewUseCase;
-import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
-import com.quedav1.quedav1back.transaction.application.port.out.IncomeRepository;
-import com.quedav1.quedav1back.transaction.application.port.out.PlannedExpenseRepository;
-import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.*;
 import com.quedav1.quedav1back.transaction.domain.model.User;
 import com.quedav1.quedav1back.transaction.domain.model.expense.Expense;
+import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
+import com.quedav1.quedav1back.transaction.domain.model.financial.FinancialCalculation;
+import com.quedav1.quedav1back.transaction.domain.model.financial.FinancialEngine;
 import com.quedav1.quedav1back.transaction.domain.model.income.Income;
 import com.quedav1.quedav1back.transaction.domain.model.plannedexpense.PlannedExpense;
+import com.quedav1.quedav1back.transaction.domain.model.saving.SavingsContribution;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class GetFinancialOverviewService
         implements GetFinancialOverviewUseCase {
@@ -25,100 +27,369 @@ public class GetFinancialOverviewService
     private final IncomeRepository incomeRepository;
     private final ExpenseRepository expenseRepository;
     private final PlannedExpenseRepository plannedExpenseRepository;
+    private final SavingsContributionRepository savingsContributionRepository;
     private final UserRepository userRepository;
+    private final FinancialEngine financialEngine;
+
 
     public GetFinancialOverviewService(
             IncomeRepository incomeRepository,
             ExpenseRepository expenseRepository,
             PlannedExpenseRepository plannedExpenseRepository,
-            UserRepository userRepository
+            SavingsContributionRepository savingsContributionRepository,
+            UserRepository userRepository,
+            FinancialEngine financialEngine
     ) {
         this.incomeRepository = incomeRepository;
         this.expenseRepository = expenseRepository;
         this.plannedExpenseRepository = plannedExpenseRepository;
+        this.savingsContributionRepository = savingsContributionRepository;
         this.userRepository = userRepository;
+        this.financialEngine = financialEngine;
     }
+
 
     @Override
     public FinancialOverviewResult getOverview(UUID userId) {
 
-        LocalDate today = LocalDate.now();
+        LocalDate today =
+                LocalDate.now();
 
-        YearMonth period = YearMonth.from(today);
 
-        LocalDate from = period.atDay(1);
-        LocalDate to = period.atEndOfMonth();
+        /*
+         * PERÍODO ACTUAL
+         */
+        YearMonth currentPeriod =
+                YearMonth.from(today);
 
+        LocalDate currentFrom =
+                currentPeriod.atDay(1);
+
+        LocalDate currentTo =
+                currentPeriod.atEndOfMonth();
+
+
+        /*
+         * PERÍODO ANTERIOR
+         */
+        YearMonth previousPeriod =
+                currentPeriod.minusMonths(1);
+
+        LocalDate previousFrom =
+                previousPeriod.atDay(1);
+
+
+        /*
+         * Queremos comparar períodos equivalentes.
+         *
+         * Ejemplo:
+         *
+         * hoy = 24 agosto
+         *
+         * actual:
+         * 1 agosto → 24 agosto
+         *
+         * anterior:
+         * 1 julio → 24 julio
+         */
+        int currentDay =
+                today.getDayOfMonth();
+
+        int previousComparisonDay =
+                Math.min(
+                        currentDay,
+                        previousPeriod.lengthOfMonth()
+                );
+
+        LocalDate previousComparisonTo =
+                previousPeriod.atDay(
+                        previousComparisonDay
+                );
+
+
+        /*
+         * INGRESOS DEL MES ACTUAL
+         */
         List<Income> incomes =
-                incomeRepository.findByUserIdAndOccurredAtBetween(
-                        userId,
-                        from,
-                        to
-                );
+                incomeRepository
+                        .findByUserIdAndOccurredAtBetween(
+                                userId,
+                                currentFrom,
+                                currentTo
+                        );
 
+
+        /*
+         * GASTOS DEL MES ACTUAL
+         *
+         * Esto alimenta balance / committed.
+         */
         List<Expense> expenses =
-                expenseRepository.findByUserIdAndOccurredAtBetween(
-                        userId,
-                        from,
-                        to
-                );
+                expenseRepository
+                        .findByUserIdAndOccurredAtBetween(
+                                userId,
+                                currentFrom,
+                                currentTo
+                        );
 
+
+        /*
+         * GASTOS ACTUALES HASTA HOY
+         *
+         * Se utilizan exclusivamente para
+         * comparar el ritmo de gasto.
+         */
+        List<Expense> currentComparisonExpenses =
+                expenseRepository
+                        .findByUserIdAndOccurredAtBetween(
+                                userId,
+                                currentFrom,
+                                today
+                        );
+
+        /*
+         * GASTOS ACTUALES HASTA HOY POR CATEGORIA
+         */
+        Map<ExpenseCategory, BigDecimal> currentExpensesByCategory =
+                currentComparisonExpenses.stream()
+                        .collect(
+                                Collectors.groupingBy(
+                                        Expense::getCategory,
+                                        Collectors.reducing(
+                                                BigDecimal.ZERO,
+                                                Expense::getAmount,
+                                                BigDecimal::add
+                                        )
+                                )
+                        );
+
+
+        /*
+         * MISMO PERÍODO DEL MES ANTERIOR
+         */
+        List<Expense> previousComparisonExpenses =
+                expenseRepository
+                        .findByUserIdAndOccurredAtBetween(
+                                userId,
+                                previousFrom,
+                                previousComparisonTo
+                        );
+
+        int previousExpenseCount =
+                previousComparisonExpenses.size();
+
+        /*
+         * MISMO PERÍODO DEL MES ANTERIOR POR CATEGORIA
+         */
+        Map<ExpenseCategory, BigDecimal> previousExpensesByCategory =
+                previousComparisonExpenses.stream()
+                        .collect(
+                                Collectors.groupingBy(
+                                        Expense::getCategory,
+                                        Collectors.reducing(
+                                                BigDecimal.ZERO,
+                                                Expense::getAmount,
+                                                BigDecimal::add
+                                        )
+                                )
+                        );
+
+        Map<ExpenseCategory, Long> previousExpenseCountByCategory =
+                previousComparisonExpenses.stream()
+                        .collect(
+                                Collectors.groupingBy(
+                                        Expense::getCategory,
+                                        Collectors.counting()
+                                )
+                        );
+
+
+        /*
+         * PLANNED EXPENSES PENDIENTES
+         *
+         * Solo desde hoy hasta fin del mes.
+         */
         List<PlannedExpense> pendingPlannedExpenses =
-                plannedExpenseRepository.findPendingByUserIdAndDueDateBetween(
-                        userId,
-                        today,
-                        to
-                );
+                plannedExpenseRepository
+                        .findPendingByUserIdAndDueDateBetween(
+                                userId,
+                                today,
+                                currentTo
+                        );
 
-        BigDecimal totalIncome = incomes.stream()
-                .map(Income::getAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        BigDecimal totalExpenses = expenses.stream()
-                .map(Expense::getAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        /*
+         * CONTRIBUCIONES DE AHORRO
+         * REALIZADAS ESTE MES
+         */
+        List<SavingsContribution> savingsContributions =
+                savingsContributionRepository
+                        .findByUserIdAndDateBetween(
+                                userId,
+                                currentFrom,
+                                currentTo
+                        );
 
-        BigDecimal totalPending = pendingPlannedExpenses.stream()
-                .map(PlannedExpense::getAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        BigDecimal balance =
-                totalIncome.subtract(totalExpenses);
+        /*
+         * TOTAL INGRESOS
+         */
+        BigDecimal totalIncome =
+                incomes.stream()
+                        .map(Income::getAmount)
+                        .reduce(
+                                BigDecimal.ZERO,
+                                BigDecimal::add
+                        );
 
-        BigDecimal availableToSpend =
-                balance
-                        .subtract(totalPending)
-                        .max(BigDecimal.ZERO);
 
+        /*
+         * TOTAL GASTOS
+         */
+        BigDecimal totalExpenses =
+                expenses.stream()
+                        .map(Expense::getAmount)
+                        .reduce(
+                                BigDecimal.ZERO,
+                                BigDecimal::add
+                        );
+
+        /*
+        * GASTOS POR CATEGORIA
+         */
+        Map<ExpenseCategory, BigDecimal> expensesByCategory =
+                expenses.stream()
+                        .collect(
+                                Collectors.groupingBy(
+                                        Expense::getCategory,
+                                        Collectors.reducing(
+                                                BigDecimal.ZERO,
+                                                Expense::getAmount,
+                                                BigDecimal::add
+                                        )
+                                )
+                        );
+
+
+        /*
+         * TOTAL PLANNED PENDIENTE
+         */
+        BigDecimal totalPending =
+                pendingPlannedExpenses.stream()
+                        .map(PlannedExpense::getAmount)
+                        .reduce(
+                                BigDecimal.ZERO,
+                                BigDecimal::add
+                        );
+
+
+        /*
+         * TOTAL AHORRADO ESTE MES
+         */
+        BigDecimal totalSavings =
+                savingsContributions.stream()
+                        .map(SavingsContribution::getAmount)
+                        .reduce(
+                                BigDecimal.ZERO,
+                                BigDecimal::add
+                        );
+
+
+        /*
+         * GASTO ACTUAL PARA TREND
+         */
+        BigDecimal currentPeriodExpenses =
+                currentComparisonExpenses.stream()
+                        .map(Expense::getAmount)
+                        .reduce(
+                                BigDecimal.ZERO,
+                                BigDecimal::add
+                        );
+
+
+        /*
+         * GASTO DEL MISMO PERÍODO
+         * DEL MES ANTERIOR
+         */
+        BigDecimal previousPeriodExpenses =
+                previousComparisonExpenses.stream()
+                        .map(Expense::getAmount)
+                        .reduce(
+                                BigDecimal.ZERO,
+                                BigDecimal::add
+                        );
+
+
+        /*
+         * DÍAS RESTANTES
+         *
+         * Incluye hoy.
+         */
         int remainingDays =
-                period.lengthOfMonth()
+                currentPeriod.lengthOfMonth()
                         - today.getDayOfMonth()
                         + 1;
 
-        BigDecimal dailyAvailable =
-                remainingDays > 0
-                        ? availableToSpend.divide(
-                        BigDecimal.valueOf(remainingDays),
-                        2,
-                        RoundingMode.HALF_UP
-                )
-                        : BigDecimal.ZERO;
 
-        User user = userRepository
-                .findById(userId)
-                .orElseThrow(UserNotFoundException::new);
+        /*
+         * FINANCIAL ENGINE
+         */
+        FinancialCalculation calculation =
+                financialEngine.calculate(
+                        totalIncome,
+                        totalExpenses,
+                        totalPending,
+                        totalSavings,
+                        currentPeriodExpenses,
+                        previousPeriodExpenses,
+                        previousExpenseCount,
+                        remainingDays,
+                        expensesByCategory,
+                        currentExpensesByCategory,
+                        previousExpensesByCategory,
+                        previousExpenseCountByCategory
+                );
+
+
+        /*
+         * USER
+         */
+        User user =
+                userRepository
+                        .findById(userId)
+                        .orElseThrow(
+                                UserNotFoundException::new
+                        );
+
 
         return new FinancialOverviewResult(
-                period.getYear(),
-                period.getMonthValue(),
+                currentPeriod.getYear(),
+                currentPeriod.getMonthValue(),
+
                 totalIncome,
                 totalExpenses,
                 totalPending,
-                balance,
-                availableToSpend,
-                dailyAvailable,
+                totalSavings,
+
+                calculation.spendingCommitment(),
+                calculation.spendingCommitmentPercentage(),
+
+                calculation.reservedSavings(),
+                calculation.savingsRatePercentage(),
+
+                calculation.balance(),
+                calculation.availableToSpend(),
+                calculation.dailyAvailable(),
+
                 remainingDays,
-                user.getCurrency()
+
+                calculation.spendingTrendPercentage(),
+
+                user.getCurrency(),
+                calculation.status(),
+
+                calculation.insights(),
+                calculation.expenseCategoryBreakdown()
         );
     }
 }
