@@ -5,6 +5,7 @@ import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.GetFinancialOverviewUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.*;
 import com.quedav1.quedav1back.transaction.domain.model.User;
+import com.quedav1.quedav1back.transaction.domain.model.budget.Budget;
 import com.quedav1.quedav1back.transaction.domain.model.expense.Expense;
 import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
 import com.quedav1.quedav1back.transaction.domain.model.financial.FinancialCalculation;
@@ -30,6 +31,7 @@ public class GetFinancialOverviewService
     private final SavingsContributionRepository savingsContributionRepository;
     private final UserRepository userRepository;
     private final FinancialEngine financialEngine;
+    private final BudgetRepository budgetRepository;
 
 
     public GetFinancialOverviewService(
@@ -38,7 +40,7 @@ public class GetFinancialOverviewService
             PlannedExpenseRepository plannedExpenseRepository,
             SavingsContributionRepository savingsContributionRepository,
             UserRepository userRepository,
-            FinancialEngine financialEngine
+            FinancialEngine financialEngine, BudgetRepository budgetRepository
     ) {
         this.incomeRepository = incomeRepository;
         this.expenseRepository = expenseRepository;
@@ -46,6 +48,7 @@ public class GetFinancialOverviewService
         this.savingsContributionRepository = savingsContributionRepository;
         this.userRepository = userRepository;
         this.financialEngine = financialEngine;
+        this.budgetRepository = budgetRepository;
     }
 
 
@@ -61,6 +64,17 @@ public class GetFinancialOverviewService
          */
         YearMonth currentPeriod =
                 YearMonth.from(today);
+
+        /*
+         *
+         */
+        List<Budget> budgets =
+                budgetRepository
+                        .findByUserIdAndYearAndMonth(
+                                userId,
+                                currentPeriod.getYear(),
+                                currentPeriod.getMonthValue()
+                        );
 
         LocalDate currentFrom =
                 currentPeriod.atDay(1);
@@ -330,6 +344,15 @@ public class GetFinancialOverviewService
                         - today.getDayOfMonth()
                         + 1;
 
+        Map<ExpenseCategory, BigDecimal> budgetsByCategory =
+                budgets.stream()
+                        .collect(
+                                Collectors.toMap(
+                                        Budget::getCategory,
+                                        Budget::getAmount
+                                )
+                        );
+
 
         /*
          * FINANCIAL ENGINE
@@ -347,7 +370,8 @@ public class GetFinancialOverviewService
                         expensesByCategory,
                         currentExpensesByCategory,
                         previousExpensesByCategory,
-                        previousExpenseCountByCategory
+                        previousExpenseCountByCategory,
+                        budgetsByCategory
                 );
 
 

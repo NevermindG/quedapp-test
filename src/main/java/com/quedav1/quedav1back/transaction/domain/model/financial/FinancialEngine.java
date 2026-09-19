@@ -40,7 +40,8 @@ public class FinancialEngine {
             Map<ExpenseCategory, BigDecimal> expensesByCategory,
             Map<ExpenseCategory, BigDecimal> currentExpensesByCategory,
             Map<ExpenseCategory, BigDecimal> previousExpensesByCategory,
-            Map<ExpenseCategory, Long> previousExpenseCountByCategory
+            Map<ExpenseCategory, Long> previousExpenseCountByCategory,
+            Map<ExpenseCategory, BigDecimal> budgetsByCategory
     ) {
 
         BigDecimal balance =
@@ -106,6 +107,7 @@ public class FinancialEngine {
 
         FinancialScore financialScore =
                 calculateFinancialScore(
+                        totalIncome,
                         spendingCommitmentPercentage,
                         savingsRatePercentage,
                         spendingTrendPercentage,
@@ -128,17 +130,30 @@ public class FinancialEngine {
                 )
         );
 
+        /*
+         *
+         */
+        insights.addAll(
+                calculateBudgetInsights(
+                        budgetsByCategory,
+                        currentExpensesByCategory
+                )
+        );
+
         List<ExpenseCategoryBreakdown> categoryBreakdown =
                 calculateCategoryBreakdown(
                         totalExpenses,
                         expensesByCategory
                 );
 
-        insights.add(
-                calculateSavingsInsight(
-                        savingsRatePercentage
-                )
-        );
+        if (totalIncome.compareTo(BigDecimal.ZERO) > 0) {
+
+            insights.add(
+                    calculateSavingsInsight(
+                            savingsRatePercentage
+                    )
+            );
+        }
 
         return new FinancialCalculation(
                 balance,
@@ -601,11 +616,25 @@ public class FinancialEngine {
     }
 
     private FinancialScore calculateFinancialScore(
+            BigDecimal totalIncome,
             BigDecimal spendingCommitmentPercentage,
             BigDecimal savingsRatePercentage,
             BigDecimal spendingTrendPercentage,
             boolean hasEnoughPreviousData
     ) {
+
+        if (totalIncome.compareTo(BigDecimal.ZERO) <= 0) {
+
+            return new FinancialScore(
+                    null,
+                    FinancialScoreLevel.NOT_AVAILABLE,
+                    0,
+                    0,
+                    0,
+                    false,
+                    false
+            );
+        }
 
         int commitmentPoints =
                 calculateCommitmentScore(
@@ -663,7 +692,8 @@ public class FinancialEngine {
                 commitmentPoints,
                 savingsPoints,
                 trendPoints,
-                hasEnoughPreviousData
+                hasEnoughPreviousData,
+                true
         );
     }
 
@@ -799,5 +829,97 @@ public class FinancialEngine {
         }
 
         return FinancialScoreLevel.CRITICAL;
+    }
+
+    private List<FinancialInsight> calculateBudgetInsights(
+            Map<ExpenseCategory, BigDecimal> budgetsByCategory,
+            Map<ExpenseCategory, BigDecimal> currentExpensesByCategory
+    ) {
+
+        List<FinancialInsight> insights =
+                new ArrayList<>();
+
+        for (
+                Map.Entry<ExpenseCategory, BigDecimal> entry
+                : budgetsByCategory.entrySet()
+        ) {
+
+            ExpenseCategory category =
+                    entry.getKey();
+
+            BigDecimal budgetAmount =
+                    entry.getValue();
+
+            BigDecimal spentAmount =
+                    currentExpensesByCategory.getOrDefault(
+                            category,
+                            BigDecimal.ZERO
+                    );
+
+            if (
+                    budgetAmount.compareTo(
+                            BigDecimal.ZERO
+                    ) <= 0
+            ) {
+                continue;
+            }
+
+            BigDecimal usedPercentage =
+                    spentAmount
+                            .divide(
+                                    budgetAmount,
+                                    4,
+                                    RoundingMode.HALF_UP
+                            )
+                            .multiply(
+                                    new BigDecimal("100")
+                            )
+                            .setScale(
+                                    2,
+                                    RoundingMode.HALF_UP
+                            );
+
+            /*
+             * PRESUPUESTO EXCEDIDO
+             */
+            if (
+                    usedPercentage.compareTo(
+                            new BigDecimal("100")
+                    ) > 0
+            ) {
+
+                insights.add(
+                        new FinancialInsight(
+                                FinancialInsightCode.CATEGORY_BUDGET_EXCEEDED,
+                                FinancialInsightSeverity.CRITICAL,
+                                usedPercentage,
+                                category
+                        )
+                );
+
+                continue;
+            }
+
+            /*
+             * 80% - 100%
+             */
+            if (
+                    usedPercentage.compareTo(
+                            new BigDecimal("80")
+                    ) >= 0
+            ) {
+
+                insights.add(
+                        new FinancialInsight(
+                                FinancialInsightCode.CATEGORY_BUDGET_WARNING,
+                                FinancialInsightSeverity.WARNING,
+                                usedPercentage,
+                                category
+                        )
+                );
+            }
+        }
+
+        return insights;
     }
 }

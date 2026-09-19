@@ -177,4 +177,49 @@ public class GlobalExceptionHandler {
                         )
                 );
     }
+
+    @ExceptionHandler(BudgetAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleBudgetAlreadyExists(
+            BudgetAlreadyExistsException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(
+                        new ErrorResponse(
+                                "BUDGET_ALREADY_EXISTS",
+                                exception.getMessage()
+                        )
+                );
+    }
+
+    @ExceptionHandler(InvalidBudgetException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidBudget(
+            InvalidBudgetException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(
+                        new ErrorResponse(
+                                "INVALID_BUDGET",
+                                exception.getMessage()
+                        )
+                );
+    }
+
+    @ExceptionHandler(BudgetNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleBudgetNotFound(
+            BudgetNotFoundException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(
+                        new ErrorResponse(
+                                "BUDGET_NOT_FOUND",
+                                exception.getMessage()
+                        )
+                );
+    }
 }

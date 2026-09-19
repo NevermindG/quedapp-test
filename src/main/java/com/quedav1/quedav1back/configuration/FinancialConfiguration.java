@@ -32,7 +32,8 @@ public class FinancialConfiguration {
             PlannedExpenseRepository plannedExpenseRepository,
             SavingsContributionRepository savingsContributionRepository,
             UserRepository userRepository,
-            FinancialEngine financialEngine
+            FinancialEngine financialEngine,
+            BudgetRepository budgetRepository
     ) {
 
         return new GetFinancialOverviewService(
@@ -41,7 +42,8 @@ public class FinancialConfiguration {
                 plannedExpenseRepository,
                 savingsContributionRepository,
                 userRepository,
-                financialEngine
+                financialEngine,
+                budgetRepository
         );
     }
 

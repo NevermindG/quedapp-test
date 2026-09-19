@@ -18,5 +18,8 @@ public enum FinancialInsightCode {
 
     NO_SAVINGS,
     LOW_SAVINGS,
-    HEALTHY_SAVINGS
+    HEALTHY_SAVINGS,
+
+    CATEGORY_BUDGET_WARNING,
+    CATEGORY_BUDGET_EXCEEDED
 }

@@ -4,5 +4,6 @@ public enum FinancialScoreLevel {
     EXCELLENT,
     GOOD,
     CAUTION,
-    CRITICAL
+    CRITICAL,
+    NOT_AVAILABLE
 }
