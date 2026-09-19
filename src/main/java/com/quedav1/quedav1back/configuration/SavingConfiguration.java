@@ -5,12 +5,10 @@ import com.quedav1.quedav1back.transaction.adapter.out.persistence.saving.Spring
 import com.quedav1.quedav1back.transaction.adapter.out.persistence.saving.SavingsGoalPersistenceAdapter;
 import com.quedav1.quedav1back.transaction.adapter.out.persistence.saving.SpringDataSavingsGoalRepository;
 import com.quedav1.quedav1back.transaction.adapter.out.transaction.TransactionalCreateSavingsContributionUseCase;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.CreateSavingsContributionUseCase;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.CreateSavingsGoalUseCase;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.*;
 import com.quedav1.quedav1back.transaction.application.port.out.SavingsContributionRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.SavingsGoalRepository;
-import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.CreateSavingsContributionService;
-import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.CreateSavingsGoalService;
+import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -64,5 +62,45 @@ public class SavingConfiguration {
         );
     }
 
+    @Bean
+    public GetSavingsGoalsUseCase getSavingsGoalsUseCase(
+            SavingsGoalRepository savingsGoalRepository
+    ) {
 
+        return new GetSavingsGoalsService(
+                savingsGoalRepository
+        );
+    }
+
+    @Bean
+    public GetSavingsGoalUseCase getSavingsGoalUseCase(
+            SavingsGoalRepository savingsGoalRepository
+    ) {
+
+        return new GetSavingsGoalService(
+                savingsGoalRepository
+        );
+    }
+
+    @Bean
+    public GetSavingsContributionsUseCase getSavingsContributionsUseCase(
+            SavingsGoalRepository savingsGoalRepository,
+            SavingsContributionRepository savingsContributionRepository
+    ) {
+
+        return new GetSavingsContributionsService(
+                savingsGoalRepository,
+                savingsContributionRepository
+        );
+    }
+
+    @Bean
+    public CancelSavingsGoalUseCase cancelSavingsGoalUseCase(
+            SavingsGoalRepository savingsGoalRepository
+    ) {
+
+        return new CancelSavingsGoalService(
+                savingsGoalRepository
+        );
+    }
 }

@@ -13,6 +13,7 @@ public record FinancialCalculation(
         BigDecimal dailyAvailable,
         BigDecimal spendingTrendPercentage,
         FinancialStatus status,
+        FinancialScore financialScore,
         List<FinancialInsight> insights,
         List<ExpenseCategoryBreakdown> expenseCategoryBreakdown
 ) {

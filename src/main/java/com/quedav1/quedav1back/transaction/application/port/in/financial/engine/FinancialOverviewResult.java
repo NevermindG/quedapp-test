@@ -1,10 +1,7 @@
 package com.quedav1.quedav1back.transaction.application.port.in.financial.engine;
 
 import com.quedav1.quedav1back.transaction.domain.model.Currency;
-import com.quedav1.quedav1back.transaction.domain.model.financial.ExpenseCategoryBreakdown;
-import com.quedav1.quedav1back.transaction.domain.model.financial.FinancialInsight;
-import com.quedav1.quedav1back.transaction.domain.model.financial.FinancialInsightCode;
-import com.quedav1.quedav1back.transaction.domain.model.financial.FinancialStatus;
+import com.quedav1.quedav1back.transaction.domain.model.financial.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -34,6 +31,8 @@ public record FinancialOverviewResult(
 
         Currency currency,
         FinancialStatus status,
+
+        FinancialScore financialScore,
 
         List<FinancialInsight> insights,
         List<ExpenseCategoryBreakdown> expenseCategoryBreakdown

@@ -388,6 +388,8 @@ public class GetFinancialOverviewService
                 user.getCurrency(),
                 calculation.status(),
 
+                calculation.financialScore(),
+
                 calculation.insights(),
                 calculation.expenseCategoryBreakdown()
         );

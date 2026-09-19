@@ -40,7 +40,7 @@ public class SavingsContributionPersistenceAdapter
     ) {
 
         return repository
-                .findBySavingsGoalIdAndUserId(
+                .findBySavingsGoalIdAndUserIdOrderByDateDesc(
                         savingsGoalId,
                         userId
                 )

@@ -19,4 +19,10 @@ public interface SpringDataSavingsContributionRepository
             LocalDate from,
             LocalDate to
     );
+
+    List<SavingsContributionJpaEntity>
+    findBySavingsGoalIdAndUserIdOrderByDateDesc(
+            UUID savingsGoalId,
+            UUID userId
+    );
 }

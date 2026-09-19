@@ -87,4 +87,94 @@ public class GlobalExceptionHandler {
                         exception.getMessage()
                 ));
     }
+
+    @ExceptionHandler(SavingsGoalNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleSavingsGoalNotFound(
+            SavingsGoalNotFoundException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(
+                        new ErrorResponse(
+                                "SAVINGS_GOAL_NOT_FOUND",
+                                exception.getMessage()
+                        )
+                );
+    }
+
+    @ExceptionHandler(SavingsContributionNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleSavingsContributionNotFound(
+            SavingsContributionNotFoundException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(
+                        new ErrorResponse(
+                                "SAVINGS_CONTRIBUTION_NOT_FOUND",
+                                exception.getMessage()
+                        )
+                );
+    }
+
+    @ExceptionHandler(SavingsGoalAlreadyCancelledException.class)
+    public ResponseEntity<ErrorResponse> handleSavingsGoalAlreadyCancelled(
+            SavingsGoalAlreadyCancelledException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(
+                        new ErrorResponse(
+                                "SAVINGS_GOAL_ALREADY_CANCELLED",
+                                exception.getMessage()
+                        )
+                );
+    }
+
+    @ExceptionHandler(SavingsGoalAlreadyCompletedException.class)
+    public ResponseEntity<ErrorResponse> handleSavingsGoalAlreadyCompleted(
+            SavingsGoalAlreadyCompletedException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(
+                        new ErrorResponse(
+                                "SAVINGS_GOAL_ALREADY_COMPLETED",
+                                exception.getMessage()
+                        )
+                );
+    }
+
+    @ExceptionHandler(SavingsGoalCancelledException.class)
+    public ResponseEntity<ErrorResponse> handleSavingsGoalCancelled(
+            SavingsGoalCancelledException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(
+                        new ErrorResponse(
+                                "SAVINGS_GOAL_CANCELLED",
+                                exception.getMessage()
+                        )
+                );
+    }
+
+    @ExceptionHandler(InvalidSavingsContributionException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidSavingsContribution(
+            InvalidSavingsContributionException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(
+                        new ErrorResponse(
+                                "INVALID_SAVINGS_CONTRIBUTION",
+                                exception.getMessage()
+                        )
+                );
+    }
 }

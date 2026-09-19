@@ -103,6 +103,15 @@ public class FinancialEngine {
                         hasEnoughPreviousData,
                         status
                 );
+
+        FinancialScore financialScore =
+                calculateFinancialScore(
+                        spendingCommitmentPercentage,
+                        savingsRatePercentage,
+                        spendingTrendPercentage,
+                        hasEnoughPreviousData
+                );
+
         /*
          * SOLO calculamos insights por categoría
          * si tenemos suficiente histórico global.
@@ -141,6 +150,7 @@ public class FinancialEngine {
                 dailyAvailable,
                 spendingTrendPercentage,
                 status,
+                financialScore,
                 insights,
                 categoryBreakdown
         );
@@ -588,5 +598,206 @@ public class FinancialEngine {
                 savingsRatePercentage,
                 null
         );
+    }
+
+    private FinancialScore calculateFinancialScore(
+            BigDecimal spendingCommitmentPercentage,
+            BigDecimal savingsRatePercentage,
+            BigDecimal spendingTrendPercentage,
+            boolean hasEnoughPreviousData
+    ) {
+
+        int commitmentPoints =
+                calculateCommitmentScore(
+                        spendingCommitmentPercentage
+                );
+
+        int savingsPoints =
+                calculateSavingsScore(
+                        savingsRatePercentage
+                );
+
+        int trendPoints = 0;
+
+        int maximumPoints = 90;
+
+        if (hasEnoughPreviousData) {
+
+            trendPoints =
+                    calculateSpendingTrendScore(
+                            spendingTrendPercentage
+                    );
+
+            maximumPoints += 10;
+        }
+
+        int earnedPoints =
+                commitmentPoints
+                        + savingsPoints
+                        + trendPoints;
+
+        int normalizedScore =
+                BigDecimal.valueOf(earnedPoints)
+                        .divide(
+                                BigDecimal.valueOf(maximumPoints),
+                                4,
+                                RoundingMode.HALF_UP
+                        )
+                        .multiply(
+                                BigDecimal.valueOf(100)
+                        )
+                        .setScale(
+                                0,
+                                RoundingMode.HALF_UP
+                        )
+                        .intValue();
+
+        FinancialScoreLevel level =
+                calculateFinancialScoreLevel(
+                        normalizedScore
+                );
+
+        return new FinancialScore(
+                normalizedScore,
+                level,
+                commitmentPoints,
+                savingsPoints,
+                trendPoints,
+                hasEnoughPreviousData
+        );
+    }
+
+    private int calculateCommitmentScore(
+            BigDecimal spendingCommitmentPercentage
+    ) {
+
+        if (
+                spendingCommitmentPercentage.compareTo(
+                        new BigDecimal("50")
+                ) <= 0
+        ) {
+            return 60;
+        }
+
+        if (
+                spendingCommitmentPercentage.compareTo(
+                        new BigDecimal("70")
+                ) <= 0
+        ) {
+            return 50;
+        }
+
+        if (
+                spendingCommitmentPercentage.compareTo(
+                        new BigDecimal("90")
+                ) <= 0
+        ) {
+            return 30;
+        }
+
+        if (
+                spendingCommitmentPercentage.compareTo(
+                        new BigDecimal("100")
+                ) <= 0
+        ) {
+            return 10;
+        }
+
+        return 0;
+    }
+
+    private int calculateSavingsScore(
+            BigDecimal savingsRatePercentage
+    ) {
+
+        if (
+                savingsRatePercentage.compareTo(
+                        new BigDecimal("20")
+                ) >= 0
+        ) {
+            return 30;
+        }
+
+        if (
+                savingsRatePercentage.compareTo(
+                        new BigDecimal("10")
+                ) >= 0
+        ) {
+            return 20;
+        }
+
+        if (
+                savingsRatePercentage.compareTo(
+                        BigDecimal.ZERO
+                ) > 0
+        ) {
+            return 10;
+        }
+
+        return 0;
+    }
+
+    private int calculateSpendingTrendScore(
+            BigDecimal spendingTrendPercentage
+    ) {
+
+        /*
+         * Gastar 10% o más menos que
+         * el período anterior.
+         */
+        if (
+                spendingTrendPercentage.compareTo(
+                        new BigDecimal("-10")
+                ) <= 0
+        ) {
+            return 10;
+        }
+
+        /*
+         * Variación entre -10% y +10%.
+         * Consideramos comportamiento estable.
+         */
+        if (
+                spendingTrendPercentage.compareTo(
+                        new BigDecimal("10")
+                ) <= 0
+        ) {
+            return 8;
+        }
+
+        /*
+         * Incremento moderado.
+         */
+        if (
+                spendingTrendPercentage.compareTo(
+                        new BigDecimal("25")
+                ) <= 0
+        ) {
+            return 4;
+        }
+
+        /*
+         * Incremento >25%
+         */
+        return 0;
+    }
+
+    private FinancialScoreLevel calculateFinancialScoreLevel(
+            int score
+    ) {
+
+        if (score >= 85) {
+            return FinancialScoreLevel.EXCELLENT;
+        }
+
+        if (score >= 70) {
+            return FinancialScoreLevel.GOOD;
+        }
+
+        if (score >= 50) {
+            return FinancialScoreLevel.CAUTION;
+        }
+
+        return FinancialScoreLevel.CRITICAL;
     }
 }

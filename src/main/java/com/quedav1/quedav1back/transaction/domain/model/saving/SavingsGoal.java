@@ -1,5 +1,9 @@
 package com.quedav1.quedav1back.transaction.domain.model.saving;
 
+import com.quedav1.quedav1back.transaction.application.exception.InvalidSavingsContributionException;
+import com.quedav1.quedav1back.transaction.application.exception.SavingsGoalAlreadyCancelledException;
+import com.quedav1.quedav1back.transaction.application.exception.SavingsGoalAlreadyCompletedException;
+import com.quedav1.quedav1back.transaction.application.exception.SavingsGoalCancelledException;
 import com.quedav1.quedav1back.transaction.domain.model.Currency;
 
 import java.math.BigDecimal;
@@ -22,24 +26,36 @@ public class SavingsGoal {
 
     public SavingsGoal contribute(BigDecimal amount) {
 
+        if (status == SavingsGoalStatus.CANCELLED) {
+            throw new SavingsGoalCancelledException();
+        }
+
+        if (status == SavingsGoalStatus.COMPLETED) {
+            throw new SavingsGoalAlreadyCompletedException();
+        }
+
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new InvalidSavingsContributionException();
+        }
+
         BigDecimal newCurrentAmount =
-                this.currentAmount.add(amount);
+                currentAmount.add(amount);
 
         SavingsGoalStatus newStatus =
-                newCurrentAmount.compareTo(this.targetAmount) >= 0
+                newCurrentAmount.compareTo(targetAmount) >= 0
                         ? SavingsGoalStatus.COMPLETED
-                        : this.status;
+                        : SavingsGoalStatus.ACTIVE;
 
         return new SavingsGoal(
-                this.id,
-                this.userId,
-                this.name,
-                this.targetAmount,
+                id,
+                userId,
+                name,
+                targetAmount,
                 newCurrentAmount,
-                this.currency,
-                this.targetDate,
+                currency,
+                targetDate,
                 newStatus,
-                this.createdAt,
+                createdAt,
                 Instant.now()
         );
     }
@@ -66,6 +82,30 @@ public class SavingsGoal {
         this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public SavingsGoal cancel() {
+
+        if (status == SavingsGoalStatus.CANCELLED) {
+            throw new SavingsGoalAlreadyCancelledException();
+        }
+
+        if (status == SavingsGoalStatus.COMPLETED) {
+            throw new SavingsGoalAlreadyCompletedException();
+        }
+
+        return new SavingsGoal(
+                id,
+                userId,
+                name,
+                targetAmount,
+                currentAmount,
+                currency,
+                targetDate,
+                SavingsGoalStatus.CANCELLED,
+                createdAt,
+                Instant.now()
+        );
     }
 
     public UUID getId() {
