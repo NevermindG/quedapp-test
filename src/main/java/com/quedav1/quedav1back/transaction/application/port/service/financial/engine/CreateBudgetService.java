@@ -2,10 +2,14 @@ package com.quedav1.quedav1back.transaction.application.port.service.financial.e
 
 import com.quedav1.quedav1back.transaction.application.exception.BudgetAlreadyExistsException;
 import com.quedav1.quedav1back.transaction.application.exception.InvalidBudgetException;
+import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundException;
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.BudgetResult;
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.CreateBudgetCommand;
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.CreateBudgetUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.BudgetRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
+import com.quedav1.quedav1back.transaction.application.port.service.common.UserCurrencyValidator;
+import com.quedav1.quedav1back.transaction.domain.model.User;
 import com.quedav1.quedav1back.transaction.domain.model.budget.Budget;
 
 import java.math.BigDecimal;
@@ -16,11 +20,13 @@ public class CreateBudgetService
         implements CreateBudgetUseCase {
 
     private final BudgetRepository budgetRepository;
+    private final UserRepository userRepository;
 
     public CreateBudgetService(
-            BudgetRepository budgetRepository
+            BudgetRepository budgetRepository, UserRepository userRepository
     ) {
         this.budgetRepository = budgetRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -28,6 +34,18 @@ public class CreateBudgetService
             UUID userId,
             CreateBudgetCommand command
     ) {
+
+        User user =
+                userRepository
+                        .findById(userId)
+                        .orElseThrow(
+                                UserNotFoundException::new
+                        );
+
+        UserCurrencyValidator.validate(
+                user.getCurrency(),
+                command.currency()
+        );
 
         validate(command);
 

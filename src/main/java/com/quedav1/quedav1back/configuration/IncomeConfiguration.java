@@ -4,6 +4,7 @@ import com.quedav1.quedav1back.transaction.adapter.out.persistence.income.Income
 import com.quedav1.quedav1back.transaction.adapter.out.persistence.income.SpringDataIncomeRepository;
 import com.quedav1.quedav1back.transaction.application.port.in.*;
 import com.quedav1.quedav1back.transaction.application.port.out.IncomeRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
 import com.quedav1.quedav1back.transaction.application.port.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,9 +21,13 @@ public class IncomeConfiguration {
 
     @Bean
     public CreateIncomeUseCase createIncomeUseCase(
-            IncomeRepository incomeRepository
+            IncomeRepository incomeRepository,
+            UserRepository userRepository
     ) {
-        return new CreateIncomeService(incomeRepository);
+        return new CreateIncomeService(
+                incomeRepository,
+                userRepository
+        );
     }
 
     @Bean
@@ -41,9 +46,13 @@ public class IncomeConfiguration {
 
     @Bean
     public UpdateIncomeUseCase updateIncomeUseCase(
-            IncomeRepository incomeRepository
+            IncomeRepository incomeRepository,
+            UserRepository userRepository
     ) {
-        return new UpdateIncomeService(incomeRepository);
+        return new UpdateIncomeService(
+                incomeRepository,
+                userRepository
+        );
     }
 
     @Bean

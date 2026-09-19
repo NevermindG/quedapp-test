@@ -1,9 +1,13 @@
 package com.quedav1.quedav1back.transaction.application.port.service;
 
+import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundException;
 import com.quedav1.quedav1back.transaction.application.port.in.CreateExpenseCommand;
 import com.quedav1.quedav1back.transaction.application.port.in.CreateExpenseUseCase;
 import com.quedav1.quedav1back.transaction.application.port.in.ExpenseResult;
 import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
+import com.quedav1.quedav1back.transaction.application.port.service.common.UserCurrencyValidator;
+import com.quedav1.quedav1back.transaction.domain.model.User;
 import com.quedav1.quedav1back.transaction.domain.model.expense.Expense;
 
 import java.time.Instant;
@@ -12,15 +16,29 @@ import java.util.UUID;
 public class CreateExpenseService implements CreateExpenseUseCase {
 
     private final ExpenseRepository expenseRepository;
+    private final UserRepository userRepository;
 
     public CreateExpenseService(
-            ExpenseRepository expenseRepository
+            ExpenseRepository expenseRepository, UserRepository userRepository
     ) {
         this.expenseRepository = expenseRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public ExpenseResult create(CreateExpenseCommand command) {
+
+        User user =
+                userRepository
+                        .findById(command.userId())
+                        .orElseThrow(
+                                UserNotFoundException::new
+                        );
+
+        UserCurrencyValidator.validate(
+                user.getCurrency(),
+                command.currency()
+        );
 
         Instant now = Instant.now();
 

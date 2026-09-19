@@ -4,6 +4,7 @@ import com.quedav1.quedav1back.transaction.adapter.out.persistence.expense.Expen
 import com.quedav1.quedav1back.transaction.adapter.out.persistence.expense.SpringDataExpenseRepository;
 import com.quedav1.quedav1back.transaction.application.port.in.*;
 import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
 import com.quedav1.quedav1back.transaction.application.port.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,9 +21,13 @@ public class ExpenseConfiguration {
 
     @Bean
     public CreateExpenseUseCase createExpenseUseCase(
-            ExpenseRepository expenseRepository
+            ExpenseRepository expenseRepository,
+            UserRepository userRepository
     ) {
-        return new CreateExpenseService(expenseRepository);
+        return new CreateExpenseService(
+                expenseRepository,
+                userRepository
+        );
     }
 
     @Bean
@@ -48,8 +53,12 @@ public class ExpenseConfiguration {
 
     @Bean
     public UpdateExpenseUseCase updateExpenseUseCase(
-            ExpenseRepository expenseRepository
+            ExpenseRepository expenseRepository,
+            UserRepository userRepository
     ) {
-        return new UpdateExpenseService(expenseRepository);
+        return new UpdateExpenseService(
+                expenseRepository,
+                userRepository
+        );
     }
 }

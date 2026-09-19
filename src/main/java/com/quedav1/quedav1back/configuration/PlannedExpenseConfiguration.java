@@ -8,6 +8,7 @@ import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.PayPlannedExpenseUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.PlannedExpenseRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
 import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.CreatePlannedExpenseService;
 import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.GetPlannedExpensesService;
 import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.PayPlannedExpenseService;
@@ -28,10 +29,12 @@ public class PlannedExpenseConfiguration {
 
     @Bean
     public CreatePlannedExpenseUseCase createPlannedExpenseUseCase(
-            PlannedExpenseRepository plannedExpenseRepository
+            PlannedExpenseRepository plannedExpenseRepository,
+            UserRepository userRepository
     ) {
         return new CreatePlannedExpenseService(
-                plannedExpenseRepository
+                plannedExpenseRepository,
+                userRepository
         );
     }
 

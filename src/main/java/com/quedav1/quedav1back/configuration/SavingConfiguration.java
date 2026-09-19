@@ -8,6 +8,7 @@ import com.quedav1.quedav1back.transaction.adapter.out.transaction.Transactional
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.*;
 import com.quedav1.quedav1back.transaction.application.port.out.SavingsContributionRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.SavingsGoalRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
 import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,10 +27,12 @@ public class SavingConfiguration {
 
     @Bean
     public CreateSavingsGoalUseCase createSavingsGoalUseCase(
-            SavingsGoalRepository savingsGoalRepository
+            SavingsGoalRepository savingsGoalRepository,
+            UserRepository userRepository
     ) {
         return new CreateSavingsGoalService(
-                savingsGoalRepository
+                savingsGoalRepository,
+                userRepository
         );
     }
 

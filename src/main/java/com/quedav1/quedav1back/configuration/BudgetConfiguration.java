@@ -6,6 +6,7 @@ import com.quedav1.quedav1back.transaction.adapter.out.persistence.budget.Spring
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.*;
 import com.quedav1.quedav1back.transaction.application.port.out.BudgetRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
 import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,11 +33,13 @@ public class BudgetConfiguration {
 
     @Bean
     public CreateBudgetUseCase createBudgetUseCase(
-            BudgetRepository budgetRepository
+            BudgetRepository budgetRepository,
+            UserRepository userRepository
     ) {
 
         return new CreateBudgetService(
-                budgetRepository
+                budgetRepository,
+                userRepository
         );
     }
 
