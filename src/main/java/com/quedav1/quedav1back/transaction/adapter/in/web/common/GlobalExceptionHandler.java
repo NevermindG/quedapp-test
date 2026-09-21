@@ -2,6 +2,10 @@ package com.quedav1.quedav1back.transaction.adapter.in.web.common;
 
 import com.quedav1.quedav1back.transaction.application.exception.*;
 import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpenses.PlannedExpenseAlreadyPaidException;
+import com.quedav1.quedav1back.transaction.domain.model.financial.savings.exceptions.InvalidSavingsContributionException;
+import com.quedav1.quedav1back.transaction.domain.model.financial.savings.exceptions.SavingsGoalAlreadyCancelledException;
+import com.quedav1.quedav1back.transaction.domain.model.financial.savings.exceptions.SavingsGoalAlreadyCompletedException;
+import com.quedav1.quedav1back.transaction.domain.model.financial.savings.exceptions.SavingsGoalCancelledException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -263,6 +267,24 @@ public class GlobalExceptionHandler {
                 .body(
                         new ErrorResponse(
                                 "INVALID_PLANNED_EXPENSE",
+                                exception.getMessage()
+                        )
+                );
+    }
+
+    @ExceptionHandler(
+            InvalidOccurredAtException.class
+    )
+    public ResponseEntity<ErrorResponse>
+    handleInvalidOccurredAt(
+            InvalidOccurredAtException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(
+                        new ErrorResponse(
+                                "INVALID_OCCURRED_AT",
                                 exception.getMessage()
                         )
                 );

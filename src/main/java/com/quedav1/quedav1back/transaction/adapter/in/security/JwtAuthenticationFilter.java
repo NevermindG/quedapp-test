@@ -58,7 +58,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .setAuthentication(authentication);
 
         filterChain.doFilter(request, response);
-        System.out.println("Authorization: " + authorizationHeader);
-        System.out.println("Token válido: " + tokenProvider.isValid(token));
     }
 }

@@ -1,9 +1,9 @@
 package com.quedav1.quedav1back.transaction.domain.model.financial.savings;
 
-import com.quedav1.quedav1back.transaction.application.exception.InvalidSavingsContributionException;
-import com.quedav1.quedav1back.transaction.application.exception.SavingsGoalAlreadyCancelledException;
-import com.quedav1.quedav1back.transaction.application.exception.SavingsGoalAlreadyCompletedException;
-import com.quedav1.quedav1back.transaction.application.exception.SavingsGoalCancelledException;
+import com.quedav1.quedav1back.transaction.domain.model.financial.savings.exceptions.InvalidSavingsContributionException;
+import com.quedav1.quedav1back.transaction.domain.model.financial.savings.exceptions.SavingsGoalAlreadyCancelledException;
+import com.quedav1.quedav1back.transaction.domain.model.financial.savings.exceptions.SavingsGoalAlreadyCompletedException;
+import com.quedav1.quedav1back.transaction.domain.model.financial.savings.exceptions.SavingsGoalCancelledException;
 import com.quedav1.quedav1back.transaction.domain.model.Currency;
 
 import java.math.BigDecimal;

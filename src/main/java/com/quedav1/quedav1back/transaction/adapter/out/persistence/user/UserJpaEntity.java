@@ -22,6 +22,7 @@ public class UserJpaEntity {
     private UUID id;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String passwordHash;
 

@@ -25,4 +25,11 @@ public interface SpringDataPlannedExpenseRepository
             LocalDate from,
             LocalDate to
     );
+
+    List<PlannedExpenseJpaEntity>
+    findByUserIdAndStatusAndDueDateLessThanEqual(
+            UUID userId,
+            PlannedExpenseStatus status,
+            LocalDate dueDate
+    );
 }

@@ -236,9 +236,8 @@ public class GetFinancialOverviewService
          */
         List<PlannedExpense> pendingPlannedExpenses =
                 plannedExpenseRepository
-                        .findPendingByUserIdAndDueDateBetween(
+                        .findPendingByUserIdAndDueDateLessThanEqual(
                                 userId,
-                                today,
                                 currentTo
                         );
 

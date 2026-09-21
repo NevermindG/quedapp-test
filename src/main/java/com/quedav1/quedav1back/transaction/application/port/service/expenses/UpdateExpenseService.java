@@ -7,6 +7,7 @@ import com.quedav1.quedav1back.transaction.application.port.in.expenses.UpdateEx
 import com.quedav1.quedav1back.transaction.application.port.in.expenses.UpdateExpenseUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.expenses.ExpenseRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
+import com.quedav1.quedav1back.transaction.application.port.service.common.FinancialMovementDateValidator;
 import com.quedav1.quedav1back.transaction.application.port.service.common.UserCurrencyValidator;
 import com.quedav1.quedav1back.transaction.domain.model.User;
 import com.quedav1.quedav1back.transaction.domain.model.expenses.Expense;
@@ -35,6 +36,11 @@ public class UpdateExpenseService implements UpdateExpenseUseCase {
         UserCurrencyValidator.validate(
                 user.getCurrency(),
                 command.currency()
+        );
+
+        FinancialMovementDateValidator.validateNotFuture(
+                command.occurredAt(),
+                user.getTimezone()
         );
 
         Expense expense = expenseRepository

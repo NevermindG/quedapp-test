@@ -1,4 +1,4 @@
-package com.quedav1.quedav1back.transaction.application.exception;
+package com.quedav1.quedav1back.transaction.domain.model.financial.savings.exceptions;
 
 public class InvalidSavingsContributionException
         extends RuntimeException {

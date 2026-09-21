@@ -78,4 +78,22 @@ public class PlannedExpensePersistenceAdapter
                 .map(PlannedExpensePersistenceMapper::toDomain)
                 .toList();
     }
+
+    @Override
+    public List<PlannedExpense>
+    findPendingByUserIdAndDueDateLessThanEqual(
+            UUID userId,
+            LocalDate dueDate
+    ) {
+
+        return repository
+                .findByUserIdAndStatusAndDueDateLessThanEqual(
+                        userId,
+                        PlannedExpenseStatus.PENDING,
+                        dueDate
+                )
+                .stream()
+                .map(PlannedExpensePersistenceMapper::toDomain)
+                .toList();
+    }
 }

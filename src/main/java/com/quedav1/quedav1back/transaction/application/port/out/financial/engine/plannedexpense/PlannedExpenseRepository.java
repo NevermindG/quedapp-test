@@ -25,4 +25,10 @@ public interface PlannedExpenseRepository {
             LocalDate from,
             LocalDate to
     );
+
+    List<PlannedExpense>
+    findPendingByUserIdAndDueDateLessThanEqual(
+            UUID userId,
+            LocalDate dueDate
+    );
 }

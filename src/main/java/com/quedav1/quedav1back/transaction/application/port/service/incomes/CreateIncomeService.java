@@ -6,6 +6,7 @@ import com.quedav1.quedav1back.transaction.application.port.in.incomes.CreateInc
 import com.quedav1.quedav1back.transaction.application.port.in.IncomeResult;
 import com.quedav1.quedav1back.transaction.application.port.out.incomes.IncomeRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
+import com.quedav1.quedav1back.transaction.application.port.service.common.FinancialMovementDateValidator;
 import com.quedav1.quedav1back.transaction.application.port.service.common.UserCurrencyValidator;
 import com.quedav1.quedav1back.transaction.domain.model.User;
 import com.quedav1.quedav1back.transaction.domain.model.incomes.Income;
@@ -41,6 +42,11 @@ public class CreateIncomeService
         UserCurrencyValidator.validate(
                 user.getCurrency(),
                 command.currency()
+        );
+
+        FinancialMovementDateValidator.validateNotFuture(
+                command.occurredAt(),
+                user.getTimezone()
         );
 
         Instant now = Instant.now();

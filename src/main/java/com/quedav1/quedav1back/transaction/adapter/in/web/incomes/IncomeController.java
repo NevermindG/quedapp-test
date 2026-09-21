@@ -2,6 +2,7 @@ package com.quedav1.quedav1back.transaction.adapter.in.web.incomes;
 
 import com.quedav1.quedav1back.transaction.application.port.in.*;
 import com.quedav1.quedav1back.transaction.application.port.in.incomes.*;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -32,7 +33,7 @@ public class IncomeController {
 
     @PostMapping
     public ResponseEntity<IncomeResult> create(
-            @RequestBody CreateIncomeRequest request,
+            @Valid @RequestBody CreateIncomeRequest request,
             Authentication authentication
     ) {
 
@@ -92,7 +93,7 @@ public class IncomeController {
     @PutMapping("/{incomeId}")
     public ResponseEntity<IncomeResult> updateIncome(
             @PathVariable UUID incomeId,
-            @RequestBody UpdateIncomeRequest request,
+            @Valid @RequestBody UpdateIncomeRequest request,
             Authentication authentication
     ) {
 

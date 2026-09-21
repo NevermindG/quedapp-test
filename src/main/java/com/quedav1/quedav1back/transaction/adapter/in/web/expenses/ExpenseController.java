@@ -112,7 +112,7 @@ public class ExpenseController {
     @PutMapping("/{expenseId}")
     public ResponseEntity<ExpenseResult> updateExpense(
             @PathVariable UUID expenseId,
-            @RequestBody UpdateExpenseRequest request,
+            @Valid @RequestBody UpdateExpenseRequest request,
             Authentication authentication
     ) {
 

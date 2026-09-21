@@ -6,6 +6,7 @@ import com.quedav1.quedav1back.transaction.application.port.in.incomes.UpdateInc
 import com.quedav1.quedav1back.transaction.application.port.in.incomes.UpdateIncomeUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.incomes.IncomeRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
+import com.quedav1.quedav1back.transaction.application.port.service.common.FinancialMovementDateValidator;
 import com.quedav1.quedav1back.transaction.application.port.service.common.UserCurrencyValidator;
 import com.quedav1.quedav1back.transaction.domain.model.User;
 import com.quedav1.quedav1back.transaction.domain.model.incomes.Income;
@@ -37,6 +38,11 @@ public class UpdateIncomeService implements UpdateIncomeUseCase {
         UserCurrencyValidator.validate(
                 user.getCurrency(),
                 command.currency()
+        );
+
+        FinancialMovementDateValidator.validateNotFuture(
+                command.occurredAt(),
+                user.getTimezone()
         );
 
         Income income = incomeRepository
