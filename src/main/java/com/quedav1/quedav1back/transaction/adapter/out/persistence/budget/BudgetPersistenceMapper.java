@@ -1,6 +1,6 @@
 package com.quedav1.quedav1back.transaction.adapter.out.persistence.budget;
 
-import com.quedav1.quedav1back.transaction.domain.model.budget.Budget;
+import com.quedav1.quedav1back.transaction.domain.model.financial.budget.Budget;
 
 public class BudgetPersistenceMapper {
 

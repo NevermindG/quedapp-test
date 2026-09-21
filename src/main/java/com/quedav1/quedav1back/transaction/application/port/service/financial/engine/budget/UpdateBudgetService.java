@@ -1,0 +1,73 @@
+package com.quedav1.quedav1back.transaction.application.port.service.financial.engine.budget;
+
+import com.quedav1.quedav1back.transaction.application.exception.BudgetNotFoundException;
+import com.quedav1.quedav1back.transaction.application.exception.InvalidBudgetException;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.BudgetResult;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.UpdateBudgetCommand;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.UpdateBudgetUseCase;
+import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.budget.BudgetRepository;
+import com.quedav1.quedav1back.transaction.domain.model.financial.budget.Budget;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+public class UpdateBudgetService
+        implements UpdateBudgetUseCase {
+
+    private final BudgetRepository budgetRepository;
+
+    public UpdateBudgetService(
+            BudgetRepository budgetRepository
+    ) {
+        this.budgetRepository = budgetRepository;
+    }
+
+    @Override
+    public BudgetResult update(
+            UUID budgetId,
+            UUID userId,
+            UpdateBudgetCommand command
+    ) {
+
+        validate(command);
+
+        Budget budget =
+                budgetRepository
+                        .findByIdAndUserId(
+                                budgetId,
+                                userId
+                        )
+                        .orElseThrow(
+                                BudgetNotFoundException::new
+                        );
+
+        Budget updatedBudget =
+                budget.updateAmount(
+                        command.amount()
+                );
+
+        Budget savedBudget =
+                budgetRepository.save(
+                        updatedBudget
+                );
+
+        return BudgetResult.from(
+                savedBudget
+        );
+    }
+
+    private void validate(
+            UpdateBudgetCommand command
+    ) {
+
+        if (
+                command.amount() == null
+                        || command.amount()
+                        .compareTo(BigDecimal.ZERO) <= 0
+        ) {
+            throw new InvalidBudgetException(
+                    "Budget amount must be greater than zero"
+            );
+        }
+    }
+}

@@ -2,7 +2,7 @@ package com.quedav1.quedav1back.transaction.adapter.out.persistence.plannedexpen
 
 import com.quedav1.quedav1back.transaction.domain.model.Currency;
 import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
-import com.quedav1.quedav1back.transaction.domain.model.plannedexpense.PlannedExpenseStatus;
+import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpense.PlannedExpenseStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

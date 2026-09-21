@@ -1,7 +1,7 @@
 package com.quedav1.quedav1back.transaction.adapter.in.web.common;
 
 import com.quedav1.quedav1back.transaction.application.exception.*;
-import com.quedav1.quedav1back.transaction.domain.model.plannedexpense.PlannedExpenseAlreadyPaidException;
+import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpense.PlannedExpenseAlreadyPaidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

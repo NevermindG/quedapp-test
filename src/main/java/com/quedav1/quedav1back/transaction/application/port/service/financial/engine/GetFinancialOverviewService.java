@@ -4,16 +4,19 @@ import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundExc
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.FinancialOverviewResult;
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.GetFinancialOverviewUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.*;
+import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.budget.BudgetRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.plannedexpense.PlannedExpenseRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.saving.SavingsContributionRepository;
 import com.quedav1.quedav1back.transaction.application.port.service.common.UserLocalDateProvider;
 import com.quedav1.quedav1back.transaction.domain.model.User;
-import com.quedav1.quedav1back.transaction.domain.model.budget.Budget;
+import com.quedav1.quedav1back.transaction.domain.model.financial.budget.Budget;
 import com.quedav1.quedav1back.transaction.domain.model.expense.Expense;
 import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
 import com.quedav1.quedav1back.transaction.domain.model.financial.FinancialCalculation;
 import com.quedav1.quedav1back.transaction.domain.model.financial.FinancialEngine;
 import com.quedav1.quedav1back.transaction.domain.model.income.Income;
-import com.quedav1.quedav1back.transaction.domain.model.plannedexpense.PlannedExpense;
-import com.quedav1.quedav1back.transaction.domain.model.saving.SavingsContribution;
+import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpense.PlannedExpense;
+import com.quedav1.quedav1back.transaction.domain.model.financial.saving.SavingsContribution;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

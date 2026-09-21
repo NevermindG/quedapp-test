@@ -1,6 +1,6 @@
 package com.quedav1.quedav1back.transaction.adapter.in.web.financial.budget;
 
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.*;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;

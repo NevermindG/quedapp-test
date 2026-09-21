@@ -1,7 +1,7 @@
 package com.quedav1.quedav1back.transaction.adapter.out.persistence.saving;
 
 import com.quedav1.quedav1back.transaction.domain.model.Currency;
-import com.quedav1.quedav1back.transaction.domain.model.saving.SavingsGoalStatus;
+import com.quedav1.quedav1back.transaction.domain.model.financial.saving.SavingsGoalStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

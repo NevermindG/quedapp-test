@@ -1,6 +1,6 @@
 package com.quedav1.quedav1back.transaction.adapter.out.persistence.saving;
 
-import com.quedav1.quedav1back.transaction.domain.model.saving.SavingsGoal;
+import com.quedav1.quedav1back.transaction.domain.model.financial.saving.SavingsGoal;
 
 public final class SavingsGoalPersistenceMapper {
 

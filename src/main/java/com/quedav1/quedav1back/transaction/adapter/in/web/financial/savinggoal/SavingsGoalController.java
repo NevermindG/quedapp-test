@@ -1,7 +1,6 @@
 package com.quedav1.quedav1back.transaction.adapter.in.web.financial.savinggoal;
 
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.GetSavingsGoalsUseCase;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.*;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.saving.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
