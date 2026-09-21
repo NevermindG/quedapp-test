@@ -1,6 +1,6 @@
 package com.quedav1.quedav1back.transaction.adapter.out.persistence.budget;
 
-import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
+import com.quedav1.quedav1back.transaction.domain.model.expenses.ExpenseCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

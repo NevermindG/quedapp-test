@@ -1,6 +1,6 @@
 package com.quedav1.quedav1back.transaction.application.port.out.financial.engine.saving;
 
-import com.quedav1.quedav1back.transaction.domain.model.financial.saving.SavingsContribution;
+import com.quedav1.quedav1back.transaction.domain.model.financial.savings.SavingsContribution;
 
 import java.time.LocalDate;
 import java.util.List;

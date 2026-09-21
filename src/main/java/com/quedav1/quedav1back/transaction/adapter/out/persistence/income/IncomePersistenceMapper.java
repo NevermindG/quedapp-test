@@ -1,6 +1,6 @@
 package com.quedav1.quedav1back.transaction.adapter.out.persistence.income;
 
-import com.quedav1.quedav1back.transaction.domain.model.income.Income;
+import com.quedav1.quedav1back.transaction.domain.model.incomes.Income;
 
 public final class IncomePersistenceMapper {
 

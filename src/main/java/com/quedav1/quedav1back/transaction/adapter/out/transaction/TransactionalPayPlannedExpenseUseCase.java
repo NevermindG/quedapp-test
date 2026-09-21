@@ -1,7 +1,7 @@
 package com.quedav1.quedav1back.transaction.adapter.out.transaction;
 
-import com.quedav1.quedav1back.transaction.application.port.in.ExpenseResult;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.plannedexpense.PayPlannedExpenseUseCase;
+import com.quedav1.quedav1back.transaction.application.port.in.expenses.ExpenseResult;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.plannedexpenses.PayPlannedExpenseUseCase;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.LocalDate;

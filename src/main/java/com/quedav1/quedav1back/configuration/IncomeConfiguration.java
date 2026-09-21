@@ -2,10 +2,10 @@ package com.quedav1.quedav1back.configuration;
 
 import com.quedav1.quedav1back.transaction.adapter.out.persistence.income.IncomePersistenceAdapter;
 import com.quedav1.quedav1back.transaction.adapter.out.persistence.income.SpringDataIncomeRepository;
-import com.quedav1.quedav1back.transaction.application.port.in.*;
-import com.quedav1.quedav1back.transaction.application.port.out.IncomeRepository;
+import com.quedav1.quedav1back.transaction.application.port.in.incomes.*;
+import com.quedav1.quedav1back.transaction.application.port.out.incomes.IncomeRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
-import com.quedav1.quedav1back.transaction.application.port.service.*;
+import com.quedav1.quedav1back.transaction.application.port.service.incomes.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

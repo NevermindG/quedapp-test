@@ -1,8 +1,8 @@
 package com.quedav1.quedav1back.transaction.adapter.out.persistence.plannedexpense;
 
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.plannedexpense.PlannedExpenseRepository;
-import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpense.PlannedExpense;
-import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpense.PlannedExpenseStatus;
+import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpenses.PlannedExpense;
+import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpenses.PlannedExpenseStatus;
 
 import java.time.LocalDate;
 import java.util.List;

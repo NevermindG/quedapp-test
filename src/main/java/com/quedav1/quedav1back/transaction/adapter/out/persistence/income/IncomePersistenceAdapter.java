@@ -1,7 +1,7 @@
 package com.quedav1.quedav1back.transaction.adapter.out.persistence.income;
 
-import com.quedav1.quedav1back.transaction.application.port.out.IncomeRepository;
-import com.quedav1.quedav1back.transaction.domain.model.income.Income;
+import com.quedav1.quedav1back.transaction.application.port.out.incomes.IncomeRepository;
+import com.quedav1.quedav1back.transaction.domain.model.incomes.Income;
 
 import java.time.LocalDate;
 import java.util.List;

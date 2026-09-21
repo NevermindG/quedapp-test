@@ -1,0 +1,10 @@
+package com.quedav1.quedav1back.transaction.application.port.in.expenses;
+
+import java.util.UUID;
+
+public interface DeleteExpenseUseCase {
+    void deleteExpense(
+            UUID expenseId,
+            UUID userId
+    );
+}

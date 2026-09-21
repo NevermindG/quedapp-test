@@ -1,7 +1,7 @@
 package com.quedav1.quedav1back.transaction.adapter.out.persistence.expense;
 
-import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
-import com.quedav1.quedav1back.transaction.domain.model.expense.Expense;
+import com.quedav1.quedav1back.transaction.application.port.out.expenses.ExpenseRepository;
+import com.quedav1.quedav1back.transaction.domain.model.expenses.Expense;
 
 import java.time.LocalDate;
 import java.util.List;

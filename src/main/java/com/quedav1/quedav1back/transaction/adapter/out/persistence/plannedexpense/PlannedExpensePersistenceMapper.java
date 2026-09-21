@@ -1,6 +1,6 @@
 package com.quedav1.quedav1back.transaction.adapter.out.persistence.plannedexpense;
 
-import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpense.PlannedExpense;
+import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpenses.PlannedExpense;
 
 public final class PlannedExpensePersistenceMapper {
 

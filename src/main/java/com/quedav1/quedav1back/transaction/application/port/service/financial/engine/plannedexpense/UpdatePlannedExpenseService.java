@@ -3,14 +3,14 @@ package com.quedav1.quedav1back.transaction.application.port.service.financial.e
 import com.quedav1.quedav1back.transaction.application.exception.InvalidPlannedExpenseException;
 import com.quedav1.quedav1back.transaction.application.exception.PlannedExpenseNotFoundException;
 import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundException;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.plannedexpense.PlannedExpenseResult;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.plannedexpense.UpdatePlannedExpenseCommand;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.plannedexpense.UpdatePlannedExpenseUseCase;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.plannedexpenses.PlannedExpenseResult;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.plannedexpenses.UpdatePlannedExpenseCommand;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.plannedexpenses.UpdatePlannedExpenseUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.plannedexpense.PlannedExpenseRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
 import com.quedav1.quedav1back.transaction.application.port.service.common.UserCurrencyValidator;
 import com.quedav1.quedav1back.transaction.domain.model.User;
-import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpense.PlannedExpense;
+import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpenses.PlannedExpense;
 
 import java.math.BigDecimal;
 import java.util.UUID;

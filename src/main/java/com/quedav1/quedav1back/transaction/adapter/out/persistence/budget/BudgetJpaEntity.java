@@ -1,7 +1,7 @@
 package com.quedav1.quedav1back.transaction.adapter.out.persistence.budget;
 
 import com.quedav1.quedav1back.transaction.domain.model.Currency;
-import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
+import com.quedav1.quedav1back.transaction.domain.model.expenses.ExpenseCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.quedav1.quedav1back.transaction.application.port.out.financial.engine.plannedexpense;
 
-import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpense.PlannedExpense;
+import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpenses.PlannedExpense;
 
 import java.time.LocalDate;
 import java.util.List;

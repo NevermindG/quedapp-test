@@ -1,6 +1,6 @@
 package com.quedav1.quedav1back.transaction.domain.model.financial;
 
-import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
+import com.quedav1.quedav1back.transaction.domain.model.expenses.ExpenseCategory;
 
 import java.math.BigDecimal;
 

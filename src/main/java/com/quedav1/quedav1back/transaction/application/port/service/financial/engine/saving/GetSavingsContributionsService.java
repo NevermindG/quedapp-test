@@ -2,8 +2,8 @@ package com.quedav1.quedav1back.transaction.application.port.service.financial.e
 
 import com.quedav1.quedav1back.transaction.application.exception.SavingsContributionNotFoundException;
 import com.quedav1.quedav1back.transaction.application.exception.SavingsGoalNotFoundException;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.saving.GetSavingsContributionsUseCase;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.saving.SavingsContributionHistoricalResult;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.savings.GetSavingsContributionsUseCase;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.savings.SavingsContributionHistoricalResult;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.saving.SavingsContributionRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.saving.SavingsGoalRepository;
 

@@ -1,12 +1,12 @@
 package com.quedav1.quedav1back.transaction.application.port.service.financial.engine.saving;
 
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.saving.CreateSavingsContributionCommand;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.saving.CreateSavingsContributionUseCase;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.saving.SavingsContributionResult;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.savings.CreateSavingsContributionCommand;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.savings.CreateSavingsContributionUseCase;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.savings.SavingsContributionResult;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.saving.SavingsContributionRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.saving.SavingsGoalRepository;
-import com.quedav1.quedav1back.transaction.domain.model.financial.saving.SavingsContribution;
-import com.quedav1.quedav1back.transaction.domain.model.financial.saving.SavingsGoal;
+import com.quedav1.quedav1back.transaction.domain.model.financial.savings.SavingsContribution;
+import com.quedav1.quedav1back.transaction.domain.model.financial.savings.SavingsGoal;
 
 import java.time.Instant;
 import java.util.UUID;

@@ -3,12 +3,12 @@ package com.quedav1.quedav1back.transaction.application.port.service.financial.e
 import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundException;
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.FinancialSummaryResult;
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.GetFinancialSummaryUseCase;
-import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
-import com.quedav1.quedav1back.transaction.application.port.out.IncomeRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.expenses.ExpenseRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.incomes.IncomeRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
 import com.quedav1.quedav1back.transaction.domain.model.User;
-import com.quedav1.quedav1back.transaction.domain.model.expense.Expense;
-import com.quedav1.quedav1back.transaction.domain.model.income.Income;
+import com.quedav1.quedav1back.transaction.domain.model.expenses.Expense;
+import com.quedav1.quedav1back.transaction.domain.model.incomes.Income;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

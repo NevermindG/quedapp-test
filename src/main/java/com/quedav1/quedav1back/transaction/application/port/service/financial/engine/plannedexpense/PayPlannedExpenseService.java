@@ -1,12 +1,12 @@
 package com.quedav1.quedav1back.transaction.application.port.service.financial.engine.plannedexpense;
 
 import com.quedav1.quedav1back.transaction.application.exception.PlannedExpenseNotFoundException;
-import com.quedav1.quedav1back.transaction.application.port.in.ExpenseResult;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.plannedexpense.PayPlannedExpenseUseCase;
-import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
+import com.quedav1.quedav1back.transaction.application.port.in.expenses.ExpenseResult;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.plannedexpenses.PayPlannedExpenseUseCase;
+import com.quedav1.quedav1back.transaction.application.port.out.expenses.ExpenseRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.plannedexpense.PlannedExpenseRepository;
-import com.quedav1.quedav1back.transaction.domain.model.expense.Expense;
-import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpense.PlannedExpense;
+import com.quedav1.quedav1back.transaction.domain.model.expenses.Expense;
+import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpenses.PlannedExpense;
 
 import java.time.Instant;
 import java.time.LocalDate;

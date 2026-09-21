@@ -1,10 +1,10 @@
 package com.quedav1.quedav1back.transaction.application.port.service.financial.engine.budget;
 
 import com.quedav1.quedav1back.transaction.application.exception.BudgetNotFoundException;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.BudgetResult;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.GetBudgetUseCase;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budgets.BudgetResult;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budgets.GetBudgetUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.budget.BudgetRepository;
-import com.quedav1.quedav1back.transaction.domain.model.financial.budget.Budget;
+import com.quedav1.quedav1back.transaction.domain.model.financial.budgets.Budget;
 
 import java.util.UUID;
 

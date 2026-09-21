@@ -3,14 +3,14 @@ package com.quedav1.quedav1back.transaction.application.port.service.financial.e
 import com.quedav1.quedav1back.transaction.application.exception.BudgetAlreadyExistsException;
 import com.quedav1.quedav1back.transaction.application.exception.InvalidBudgetException;
 import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundException;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.BudgetResult;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.CreateBudgetCommand;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.CreateBudgetUseCase;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budgets.BudgetResult;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budgets.CreateBudgetCommand;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budgets.CreateBudgetUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.budget.BudgetRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
 import com.quedav1.quedav1back.transaction.application.port.service.common.UserCurrencyValidator;
 import com.quedav1.quedav1back.transaction.domain.model.User;
-import com.quedav1.quedav1back.transaction.domain.model.financial.budget.Budget;
+import com.quedav1.quedav1back.transaction.domain.model.financial.budgets.Budget;
 
 import java.math.BigDecimal;
 import java.time.Instant;

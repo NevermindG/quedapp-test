@@ -2,11 +2,11 @@ package com.quedav1.quedav1back.transaction.application.port.service.financial.e
 
 import com.quedav1.quedav1back.transaction.application.exception.BudgetNotFoundException;
 import com.quedav1.quedav1back.transaction.application.exception.InvalidBudgetException;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.BudgetResult;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.UpdateBudgetCommand;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.UpdateBudgetUseCase;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budgets.BudgetResult;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budgets.UpdateBudgetCommand;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budgets.UpdateBudgetUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.budget.BudgetRepository;
-import com.quedav1.quedav1back.transaction.domain.model.financial.budget.Budget;
+import com.quedav1.quedav1back.transaction.domain.model.financial.budgets.Budget;
 
 import java.math.BigDecimal;
 import java.util.UUID;

@@ -1,6 +1,6 @@
 package com.quedav1.quedav1back.transaction.adapter.out.persistence.plannedexpense;
 
-import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpense.PlannedExpenseStatus;
+import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpenses.PlannedExpenseStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

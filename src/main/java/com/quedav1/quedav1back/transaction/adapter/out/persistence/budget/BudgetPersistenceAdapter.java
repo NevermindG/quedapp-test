@@ -1,8 +1,8 @@
 package com.quedav1.quedav1back.transaction.adapter.out.persistence.budget;
 
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.budget.BudgetRepository;
-import com.quedav1.quedav1back.transaction.domain.model.financial.budget.Budget;
-import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
+import com.quedav1.quedav1back.transaction.domain.model.financial.budgets.Budget;
+import com.quedav1.quedav1back.transaction.domain.model.expenses.ExpenseCategory;
 
 import java.util.List;
 import java.util.Optional;

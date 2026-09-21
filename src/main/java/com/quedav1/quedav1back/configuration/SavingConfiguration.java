@@ -5,7 +5,7 @@ import com.quedav1.quedav1back.transaction.adapter.out.persistence.saving.Spring
 import com.quedav1.quedav1back.transaction.adapter.out.persistence.saving.SavingsGoalPersistenceAdapter;
 import com.quedav1.quedav1back.transaction.adapter.out.persistence.saving.SpringDataSavingsGoalRepository;
 import com.quedav1.quedav1back.transaction.adapter.out.transaction.TransactionalCreateSavingsContributionUseCase;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.saving.*;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.savings.*;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.saving.SavingsContributionRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.saving.SavingsGoalRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;

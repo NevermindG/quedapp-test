@@ -1,15 +1,15 @@
 package com.quedav1.quedav1back.transaction.application.port.service.financial.engine.saving;
 
 import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundException;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.saving.CreateSavingsGoalCommand;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.saving.CreateSavingsGoalUseCase;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.saving.SavingsGoalResult;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.savings.CreateSavingsGoalCommand;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.savings.CreateSavingsGoalUseCase;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.savings.SavingsGoalResult;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.saving.SavingsGoalRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
 import com.quedav1.quedav1back.transaction.application.port.service.common.UserCurrencyValidator;
 import com.quedav1.quedav1back.transaction.domain.model.User;
-import com.quedav1.quedav1back.transaction.domain.model.financial.saving.SavingsGoal;
-import com.quedav1.quedav1back.transaction.domain.model.financial.saving.SavingsGoalStatus;
+import com.quedav1.quedav1back.transaction.domain.model.financial.savings.SavingsGoal;
+import com.quedav1.quedav1back.transaction.domain.model.financial.savings.SavingsGoalStatus;
 
 import java.math.BigDecimal;
 import java.time.Instant;

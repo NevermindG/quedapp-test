@@ -1,11 +1,11 @@
 package com.quedav1.quedav1back.transaction.application.port.service.financial.engine.plannedexpense;
 
 import com.quedav1.quedav1back.transaction.application.exception.PlannedExpenseNotFoundException;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.plannedexpense.DeletePlannedExpenseUseCase;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.plannedexpenses.DeletePlannedExpenseUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.plannedexpense.PlannedExpenseRepository;
-import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpense.PlannedExpense;
-import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpense.PlannedExpenseAlreadyPaidException;
-import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpense.PlannedExpenseStatus;
+import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpenses.PlannedExpense;
+import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpenses.PlannedExpenseAlreadyPaidException;
+import com.quedav1.quedav1back.transaction.domain.model.financial.plannedexpenses.PlannedExpenseStatus;
 
 import java.util.UUID;
 

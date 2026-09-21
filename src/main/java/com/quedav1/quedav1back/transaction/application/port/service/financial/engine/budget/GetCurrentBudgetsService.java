@@ -1,16 +1,16 @@
 package com.quedav1.quedav1back.transaction.application.port.service.financial.engine.budget;
 
 import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundException;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.CurrentBudgetResult;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budget.GetCurrentBudgetsUseCase;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budgets.CurrentBudgetResult;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.budgets.GetCurrentBudgetsUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.financial.engine.budget.BudgetRepository;
-import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.expenses.ExpenseRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
 import com.quedav1.quedav1back.transaction.application.port.service.common.UserLocalDateProvider;
 import com.quedav1.quedav1back.transaction.domain.model.User;
-import com.quedav1.quedav1back.transaction.domain.model.financial.budget.Budget;
-import com.quedav1.quedav1back.transaction.domain.model.expense.Expense;
-import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
+import com.quedav1.quedav1back.transaction.domain.model.financial.budgets.Budget;
+import com.quedav1.quedav1back.transaction.domain.model.expenses.Expense;
+import com.quedav1.quedav1back.transaction.domain.model.expenses.ExpenseCategory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
