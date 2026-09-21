@@ -1,9 +1,13 @@
 package com.quedav1.quedav1back.transaction.application.port.service.financial.engine;
 
+import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundException;
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.CurrentBudgetResult;
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.GetCurrentBudgetsUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.BudgetRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
+import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
+import com.quedav1.quedav1back.transaction.application.port.service.common.UserLocalDateProvider;
+import com.quedav1.quedav1back.transaction.domain.model.User;
 import com.quedav1.quedav1back.transaction.domain.model.budget.Budget;
 import com.quedav1.quedav1back.transaction.domain.model.expense.Expense;
 import com.quedav1.quedav1back.transaction.domain.model.expense.ExpenseCategory;
@@ -23,13 +27,15 @@ public class GetCurrentBudgetsService
 
     private final BudgetRepository budgetRepository;
     private final ExpenseRepository expenseRepository;
+    private final UserRepository userRepository;
 
     public GetCurrentBudgetsService(
             BudgetRepository budgetRepository,
-            ExpenseRepository expenseRepository
+            ExpenseRepository expenseRepository, UserRepository userRepository
     ) {
         this.budgetRepository = budgetRepository;
         this.expenseRepository = expenseRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -37,8 +43,17 @@ public class GetCurrentBudgetsService
             UUID userId
     ) {
 
+        User user =
+                userRepository
+                        .findById(userId)
+                        .orElseThrow(
+                                UserNotFoundException::new
+                        );
+
         LocalDate today =
-                LocalDate.now();
+                UserLocalDateProvider.today(
+                        user.getTimezone()
+                );
 
         YearMonth currentPeriod =
                 YearMonth.from(today);

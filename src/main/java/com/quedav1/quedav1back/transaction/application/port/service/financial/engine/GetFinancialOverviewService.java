@@ -4,6 +4,7 @@ import com.quedav1.quedav1back.transaction.application.exception.UserNotFoundExc
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.FinancialOverviewResult;
 import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.GetFinancialOverviewUseCase;
 import com.quedav1.quedav1back.transaction.application.port.out.*;
+import com.quedav1.quedav1back.transaction.application.port.service.common.UserLocalDateProvider;
 import com.quedav1.quedav1back.transaction.domain.model.User;
 import com.quedav1.quedav1back.transaction.domain.model.budget.Budget;
 import com.quedav1.quedav1back.transaction.domain.model.expense.Expense;
@@ -55,13 +56,18 @@ public class GetFinancialOverviewService
     @Override
     public FinancialOverviewResult getOverview(UUID userId) {
 
+        User user =
+                userRepository
+                        .findById(userId)
+                        .orElseThrow(
+                                UserNotFoundException::new
+                        );
+
         LocalDate today =
-                LocalDate.now();
+                UserLocalDateProvider.today(
+                        user.getTimezone()
+                );
 
-
-        /*
-         * PERÍODO ACTUAL
-         */
         YearMonth currentPeriod =
                 YearMonth.from(today);
 
@@ -373,17 +379,6 @@ public class GetFinancialOverviewService
                         previousExpenseCountByCategory,
                         budgetsByCategory
                 );
-
-
-        /*
-         * USER
-         */
-        User user =
-                userRepository
-                        .findById(userId)
-                        .orElseThrow(
-                                UserNotFoundException::new
-                        );
 
 
         return new FinancialOverviewResult(

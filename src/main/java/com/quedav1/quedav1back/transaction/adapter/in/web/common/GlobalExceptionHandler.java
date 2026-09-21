@@ -237,4 +237,19 @@ public class GlobalExceptionHandler {
                         )
                 );
     }
+
+    @ExceptionHandler(InvalidTimezoneException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidTimezone(
+            InvalidTimezoneException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(
+                        new ErrorResponse(
+                                "INVALID_TIMEZONE",
+                                exception.getMessage()
+                        )
+                );
+    }
 }

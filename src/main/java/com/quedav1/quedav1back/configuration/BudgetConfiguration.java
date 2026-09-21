@@ -46,12 +46,14 @@ public class BudgetConfiguration {
     @Bean
     public GetCurrentBudgetsUseCase getCurrentBudgetsUseCase(
             BudgetRepository budgetRepository,
-            ExpenseRepository expenseRepository
+            ExpenseRepository expenseRepository,
+            UserRepository userRepository
     ) {
 
         return new GetCurrentBudgetsService(
                 budgetRepository,
-                expenseRepository
+                expenseRepository,
+                userRepository
         );
     }
 
