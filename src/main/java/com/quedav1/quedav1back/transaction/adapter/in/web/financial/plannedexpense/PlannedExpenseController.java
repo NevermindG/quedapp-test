@@ -17,14 +17,20 @@ public class PlannedExpenseController {
     private final CreatePlannedExpenseUseCase createPlannedExpenseUseCase;
     private final GetPlannedExpensesUseCase getPlannedExpensesUseCase;
     private final PayPlannedExpenseUseCase payPlannedExpenseUseCase;
+    private final GetPlannedExpenseUseCase getPlannedExpenseUseCase;
+    private final UpdatePlannedExpenseUseCase updatePlannedExpenseUseCase;
+    private final DeletePlannedExpenseUseCase deletePlannedExpenseUseCase;
 
     public PlannedExpenseController(
-            CreatePlannedExpenseUseCase createPlannedExpenseUseCase, GetPlannedExpensesUseCase getPlannedExpensesUseCase, PayPlannedExpenseUseCase payPlannedExpenseUseCase
+            CreatePlannedExpenseUseCase createPlannedExpenseUseCase, GetPlannedExpensesUseCase getPlannedExpensesUseCase, PayPlannedExpenseUseCase payPlannedExpenseUseCase, GetPlannedExpenseUseCase getPlannedExpenseUseCase, UpdatePlannedExpenseUseCase updatePlannedExpenseUseCase, DeletePlannedExpenseUseCase deletePlannedExpenseUseCase
     ) {
         this.createPlannedExpenseUseCase =
                 createPlannedExpenseUseCase;
         this.getPlannedExpensesUseCase = getPlannedExpensesUseCase;
         this.payPlannedExpenseUseCase = payPlannedExpenseUseCase;
+        this.getPlannedExpenseUseCase = getPlannedExpenseUseCase;
+        this.updatePlannedExpenseUseCase = updatePlannedExpenseUseCase;
+        this.deletePlannedExpenseUseCase = deletePlannedExpenseUseCase;
     }
 
     @PostMapping
@@ -86,5 +92,69 @@ public class PlannedExpenseController {
                 );
 
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/{plannedExpenseId}")
+    public ResponseEntity<PlannedExpenseResult> getPlannedExpense(
+            @PathVariable UUID plannedExpenseId,
+            Authentication authentication
+    ) {
+
+        UUID userId =
+                (UUID) authentication.getPrincipal();
+
+        return ResponseEntity.ok(
+                getPlannedExpenseUseCase.get(
+                        plannedExpenseId,
+                        userId
+                )
+        );
+    }
+
+    @PutMapping("/{plannedExpenseId}")
+    public ResponseEntity<PlannedExpenseResult> updatePlannedExpense(
+            @PathVariable UUID plannedExpenseId,
+            @RequestBody UpdatePlannedExpenseRequest request,
+            Authentication authentication
+    ) {
+
+        UUID userId =
+                (UUID) authentication.getPrincipal();
+
+        UpdatePlannedExpenseCommand command =
+                new UpdatePlannedExpenseCommand(
+                        request.amount(),
+                        request.currency(),
+                        request.description(),
+                        request.category(),
+                        request.dueDate()
+                );
+
+        return ResponseEntity.ok(
+                updatePlannedExpenseUseCase.update(
+                        plannedExpenseId,
+                        userId,
+                        command
+                )
+        );
+    }
+
+    @DeleteMapping("/{plannedExpenseId}")
+    public ResponseEntity<Void> deletePlannedExpense(
+            @PathVariable UUID plannedExpenseId,
+            Authentication authentication
+    ) {
+
+        UUID userId =
+                (UUID) authentication.getPrincipal();
+
+        deletePlannedExpenseUseCase.delete(
+                plannedExpenseId,
+                userId
+        );
+
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 }

@@ -3,15 +3,11 @@ package com.quedav1.quedav1back.configuration;
 import com.quedav1.quedav1back.transaction.adapter.out.persistence.plannedexpense.PlannedExpensePersistenceAdapter;
 import com.quedav1.quedav1back.transaction.adapter.out.persistence.plannedexpense.SpringDataPlannedExpenseRepository;
 import com.quedav1.quedav1back.transaction.adapter.out.transaction.TransactionalPayPlannedExpenseUseCase;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.CreatePlannedExpenseUseCase;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.GetPlannedExpensesUseCase;
-import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.PayPlannedExpenseUseCase;
+import com.quedav1.quedav1back.transaction.application.port.in.financial.engine.*;
 import com.quedav1.quedav1back.transaction.application.port.out.ExpenseRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.PlannedExpenseRepository;
 import com.quedav1.quedav1back.transaction.application.port.out.UserRepository;
-import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.CreatePlannedExpenseService;
-import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.GetPlannedExpensesService;
-import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.PayPlannedExpenseService;
+import com.quedav1.quedav1back.transaction.application.port.service.financial.engine.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -66,6 +62,38 @@ public class PlannedExpenseConfiguration {
         return new TransactionalPayPlannedExpenseUseCase(
                 service,
                 transactionTemplate
+        );
+    }
+
+    @Bean
+    public GetPlannedExpenseUseCase getPlannedExpenseUseCase(
+            PlannedExpenseRepository plannedExpenseRepository
+    ) {
+
+        return new GetPlannedExpenseService(
+                plannedExpenseRepository
+        );
+    }
+
+    @Bean
+    public UpdatePlannedExpenseUseCase updatePlannedExpenseUseCase(
+            PlannedExpenseRepository plannedExpenseRepository,
+            UserRepository userRepository
+    ) {
+
+        return new UpdatePlannedExpenseService(
+                plannedExpenseRepository,
+                userRepository
+        );
+    }
+
+    @Bean
+    public DeletePlannedExpenseUseCase deletePlannedExpenseUseCase(
+            PlannedExpenseRepository plannedExpenseRepository
+    ) {
+
+        return new DeletePlannedExpenseService(
+                plannedExpenseRepository
         );
     }
 }

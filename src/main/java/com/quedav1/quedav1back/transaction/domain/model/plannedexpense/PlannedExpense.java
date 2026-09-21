@@ -65,6 +65,32 @@ public class PlannedExpense {
         this.updatedAt = updatedAt;
     }
 
+    public PlannedExpense update(
+            BigDecimal amount,
+            Currency currency,
+            String description,
+            ExpenseCategory category,
+            LocalDate dueDate
+    ) {
+
+        if (status == PlannedExpenseStatus.PAID) {
+            throw new PlannedExpenseAlreadyPaidException();
+        }
+
+        return new PlannedExpense(
+                id,
+                userId,
+                amount,
+                currency,
+                description,
+                category,
+                dueDate,
+                status,
+                createdAt,
+                Instant.now()
+        );
+    }
+
     public UUID getId() {
         return id;
     }

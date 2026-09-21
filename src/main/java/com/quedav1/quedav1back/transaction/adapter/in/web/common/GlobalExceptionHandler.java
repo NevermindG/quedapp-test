@@ -252,4 +252,19 @@ public class GlobalExceptionHandler {
                         )
                 );
     }
+
+    @ExceptionHandler(InvalidPlannedExpenseException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidPlannedExpense(
+            InvalidPlannedExpenseException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(
+                        new ErrorResponse(
+                                "INVALID_PLANNED_EXPENSE",
+                                exception.getMessage()
+                        )
+                );
+    }
 }
